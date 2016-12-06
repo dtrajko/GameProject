@@ -6,27 +6,23 @@ import org.lwjgl.opengl.DisplayMode;
 
 import static org.lwjgl.opengl.GL11.*;
 
+import static helpers.Artist.*;
+
 public class Boot {
 
 	public Boot() {
-		Display.setTitle("CCG Game");
-		try {
-			Display.setDisplayMode(new DisplayMode(600, 400));
-			Display.create();
-		} catch (LWJGLException e) {
-			e.printStackTrace();
-		}
 
-		glMatrixMode(GL_PROJECTION);
-		glLoadIdentity();
-		glOrtho(0, 600, 400, 0, 1, -1);
-		glMatrixMode(GL_MODELVIEW);
+		BeginSession();
+
+		float x = 100;
+		float y = 100;
+		float width = 50;
+		float height = 50;
 
 		while(!Display.isCloseRequested()) {
-			glBegin(GL_LINES);
-			glVertex2f(10, 10);
-			glVertex2f(100, 100);
-			glEnd();
+
+			DrawQuad(50, 50, 100, 100);
+			DrawQuad(150, 150, 100, 100);
 
 			Display.update();
 			Display.sync(60);
