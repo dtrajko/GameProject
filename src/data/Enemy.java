@@ -14,7 +14,7 @@ public class Enemy {
 	private float x, y, speed;
 	private Texture texture;
 	private Tile startTile;
-	private boolean first = true;
+	private boolean first = true, alive = true;
 	private TileGrid grid;
 	private ArrayList<Checkpoint> checkpoints;
 	private int[] directions;
@@ -47,7 +47,8 @@ public class Enemy {
 		else {
 			if (CheckpointReached()) {
 				if (currentCheckpoint + 1 == checkpoints.size()) {
-					System.out.println("Enemy Reached End of Maze");					
+					// System.out.println("Enemy Reached End of Maze");
+					Die();
 				} else {
 					currentCheckpoint++;
 				}
@@ -97,8 +98,9 @@ public class Enemy {
 		int counter = 1;
 
 		while(!found) {
-			if (s.getType() != 
-					grid.GetTile(s.getXPlace() + dir[0] * counter, 
+			if (s.getXPlace() + dir[0] * counter == grid.getTilesWide() ||
+				s.getXPlace() + dir[0] * counter == grid.getTilesWide() ||
+				s.getType() != grid.GetTile(s.getXPlace() + dir[0] * counter, 
 							s.getYPlace() + dir[1] * counter).getType()) {
 				found = true;
 				// Move counter back 1 to find tile before new tileType
@@ -135,25 +137,15 @@ public class Enemy {
 		} else {
 			dir[0] = 2;
 			dir[1] = 2;
-			System.out.println("NO DIRECTION FOUND.");
+			// System.out.println("NO DIRECTION FOUND.");
 		}
 
 		return dir;
 	}
 
-	/*
-	private boolean pathContinues() {
-		boolean answer = true;
-		
-		Tile myTile = grid.GetTile((int) (x / 64), (int) (y / 64));
-		Tile nextTile = grid.GetTile((int) (x / 64) + 1, (int) (y / 64));
-
-		if (myTile.getType() != nextTile.getType())
-			answer = false;
-
-		return answer;
+	private void Die() {
+		alive = false;
 	}
-	*/
 
 	public void Draw() {
 		DrawQuadTex(texture, x, y, width, height);
@@ -241,5 +233,9 @@ public class Enemy {
 
 	public TileGrid getTileGrid() {
 		return grid;
+	}
+	
+	public boolean isAlive() {
+		return alive;
 	}
 }

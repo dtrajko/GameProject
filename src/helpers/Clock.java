@@ -12,14 +12,16 @@ public class Clock {
 	public static long getTime() {
 		return Sys.getTime() * 700 / Sys.getTimerResolution();
 	}
-	
+
 	public static float getDelta() {
 		long currentTime = getTime();
 		int delta = (int) (currentTime - lastFrame);
 		lastFrame = getTime();
+		if (delta * 0.05f > 0.5f)
+			return 0.5f;
 		return delta * 0.05f;
 	}
-	
+
 	public static float Delta() {
 		if (paused)
 			return 0;

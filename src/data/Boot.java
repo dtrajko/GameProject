@@ -18,7 +18,7 @@ public class Boot {
 		BeginSession();
 
 		int[][] map = {
-			{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+			{0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 			{0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0},
 			{0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0},
 			{0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0},
@@ -30,16 +30,17 @@ public class Boot {
 			{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0},
 			{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 1, 0, 0, 0},
 			{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0},
-			{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0},
+			{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1},
 			{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 			{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 		};
 
 		TileGrid grid = new TileGrid(map);
 		grid.SetTile(3, 4, grid.GetTile(4, 4).getType());
-		Enemy e = new Enemy(QuickLoad("UFO64"), grid.GetTile(1, 1), grid, 64, 64, 40);
+		Enemy e = new Enemy(QuickLoad("UFO64"), grid.GetTile(1, 0), grid, 64, 64, 100);
 		Wave wave = new Wave(70, e);
 		Player player = new Player(grid);
+		TowerCannon tower = new TowerCannon(QuickLoad("cannonBase"), grid.GetTile(7, 1), 10);
 
 		while(!Display.isCloseRequested()) {
 			Clock.update();
@@ -47,6 +48,7 @@ public class Boot {
             grid.Draw();
             wave.Update();
             player.Update();
+            tower.update();
 
 			Display.update();
 			Display.sync(60);
