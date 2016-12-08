@@ -38,6 +38,14 @@ public class Tile {
 		this.y = y;
 	}
 
+	public int getXPlace() {
+		return (int) x / 64;
+	}
+
+	public int getYPlace() {
+		return (int) y / 64;
+	}
+
 	public float getWidth() {
 		return width;
 	}
