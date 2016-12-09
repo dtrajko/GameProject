@@ -8,13 +8,15 @@ import java.util.ArrayList;
 
 public class TowerCannon {
 
-	private float x, y, timeSinceLastShot, firingSpeed;
+	private float x, y, timeSinceLastShot, firingSpeed, angle;
 	private int width, height, damage;
 	private Texture baseTexture, cannonTexture;
 	private Tile startTile;
 	private ArrayList<Projectile> projectiles;
+	private ArrayList<Enemy> enemies;
+	private Enemy target;
 
-	public TowerCannon(Texture baseTexture, Tile startTile, int damage) {
+	public TowerCannon(Texture baseTexture, Tile startTile, int damage, ArrayList<Enemy> enemies) {
 		this.baseTexture = baseTexture;
 		this.cannonTexture = QuickLoad("cannonGun");
 		this.startTile = startTile;
@@ -23,19 +25,30 @@ public class TowerCannon {
 		this.width = (int) startTile.getWidth();
 		this.height = (int) startTile.getHeight();
 		this.damage = damage;
-		this.firingSpeed = 10;
+		this.firingSpeed = 3;
 		this.timeSinceLastShot = 0;
 		this.projectiles = new ArrayList<Projectile>();
+		this.enemies = enemies;
+		this.target = aquireTarget();
+		this.angle = calculateAngle();
+	}
+
+	private Enemy aquireTarget() {
+		return enemies.get(0);
+	}
+
+	private float calculateAngle() {
+		double angleTemp = Math.atan2(target.getY() - y, target.getX() - x);
+		return (float) Math.toDegrees(angleTemp) - 90;
 	}
 
 	private void shoot() {
 		// TODO Auto-generated method stub
 		timeSinceLastShot = 0;
-		projectiles.add(new Projectile(QuickLoad("bullet"), x + 16, y + 64, 10, 10));
+		projectiles.add(new Projectile(QuickLoad("bullet"), target, x + 32, y + 32, 900, 10));
 	}
 
 	public void update() {
-		System.out.println("This is a test of the audio equipment setup");
 		timeSinceLastShot += Delta();
 		if (timeSinceLastShot > firingSpeed) {
 			shoot();
@@ -44,12 +57,13 @@ public class TowerCannon {
 		for (Projectile p: projectiles) {
 			p.update();
 		}
-		
+
+		angle = calculateAngle();
 		draw();
 	}
 
 	public void draw() {
 		DrawQuadTex(baseTexture, x, y, width, height);
-		DrawQuadTex(cannonTexture, x, y, width, height);
+		DrawQuadTexRot(cannonTexture, x, y, width, height, angle);
 	}
 }

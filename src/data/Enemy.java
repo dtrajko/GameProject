@@ -47,14 +47,14 @@ public class Enemy {
 		else {
 			if (CheckpointReached()) {
 				if (currentCheckpoint + 1 == checkpoints.size()) {
-					// System.out.println("Enemy Reached End of Maze");
+					System.out.println("Enemy Reached End of Maze");
 					Die();
 				} else {
 					currentCheckpoint++;
 				}
 			} else {
-				x += Delta() * checkpoints.get(currentCheckpoint).getxDirection();
-				y += Delta() * checkpoints.get(currentCheckpoint).getyDirection();
+				x += Delta() * checkpoints.get(currentCheckpoint).getxDirection() * speed;
+				y += Delta() * checkpoints.get(currentCheckpoint).getyDirection() * speed;
 			}
 		}
 	}

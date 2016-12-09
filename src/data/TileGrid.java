@@ -8,7 +8,7 @@ public class TileGrid {
 	private int tilesWide, tilesHigh;
 	
 	public TileGrid() {
-		map = new Tile[20][15];
+		map = new Tile[20][14];
 		for (int i = 0; i < map.length; i++) {
 			for (int j = 0; j < map[i].length; j++) {
 				map[i][j] = new Tile(i * 64, j * 64, 64, 64, TileType.Grass);
