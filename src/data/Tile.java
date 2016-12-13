@@ -39,11 +39,11 @@ public class Tile {
 	}
 
 	public int getXPlace() {
-		return (int) x / 64;
+		return (int) x / Game.TILE_SIZE;
 	}
 
 	public int getYPlace() {
-		return (int) y / 64;
+		return (int) y / Game.TILE_SIZE;
 	}
 
 	public float getWidth() {

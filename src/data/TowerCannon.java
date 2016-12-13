@@ -34,18 +34,31 @@ public class TowerCannon {
 	}
 
 	private Enemy aquireTarget() {
-		return enemies.get(0);
+		enemies = Game.getWaveManager().getCurrentWave().getEnemyList();
+		if (enemies.size() > 0) {
+			return enemies.get(0);			
+		} else {
+			return target;
+		}
 	}
 
 	private float calculateAngle() {
-		double angleTemp = Math.atan2(target.getY() - y, target.getX() - x);
+		double angleTemp = 0;
+		if (target != null) {
+			angleTemp = Math.atan2(target.getY() - y, target.getX() - x);
+		}
 		return (float) Math.toDegrees(angleTemp) - 90;
 	}
 
 	private void shoot() {
+
+		this.target = aquireTarget();
+		this.angle = calculateAngle();
+
 		// TODO Auto-generated method stub
 		timeSinceLastShot = 0;
-		projectiles.add(new Projectile(QuickLoad("bullet"), target, x + 32, y + 32, 900, 10));
+		projectiles.add(new Projectile(QuickLoad("bullet"), target, 
+		    x + Game.TILE_SIZE / 4, y + Game.TILE_SIZE / 4, Game.TILE_SIZE / 2, Game.TILE_SIZE / 2, 900, 10));
 	}
 
 	public void update() {

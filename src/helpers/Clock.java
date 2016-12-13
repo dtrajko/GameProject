@@ -42,14 +42,14 @@ public class Clock {
 		totalTime += d;
 	}
 	
-	public static void ChangeMultiplier(int change) {
+	public static void ChangeMultiplier(float change) {
 		if (multiplier + change < -1 && multiplier + change > 7) {
 			// pass
 		} else {
 			multiplier += change;
 		}
 	}
-	
+
 	public static void Pause() {
 		if (paused)
 			paused = false;

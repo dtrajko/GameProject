@@ -8,17 +8,21 @@ import org.newdawn.slick.opengl.Texture;
 public class Projectile {
 
 	private Texture texture;
-	private float x, y, speed, xVelocity, yVelocity;
+	private float x, y, width, height, speed, xVelocity, yVelocity;
 	private int damage;
 	private Enemy target;
+	private boolean alive;
 
-	public Projectile(Texture texture, Enemy target, float x, float y, float speed, int damage) {
+	public Projectile(Texture texture, Enemy target, float x, float y, float width, float height, float speed, int damage) {
 		this.texture = texture;
 		this.x = x;
 		this.y = y;
+		this.width = width;
+		this.height = height;
 		this.speed = speed;
 		this.damage = damage;
 		this.target = target;
+		this.alive = true;
 		this.xVelocity = 0f;
 		this.yVelocity = 0f;
 		calculateDirection();
@@ -26,8 +30,8 @@ public class Projectile {
 
 	private void calculateDirection() {
 		float totalAllowedMovement = 1.0f;
-		float xDistanceFromTarget = Math.abs(target.getX() - x);
-		float yDistanceFromTarget = Math.abs(target.getY() - y);
+		float xDistanceFromTarget = Math.abs(target.getX() - x + Game.TILE_SIZE / 4);
+		float yDistanceFromTarget = Math.abs(target.getY() - y + Game.TILE_SIZE / 4);
 		float totalDistanceFromTarget = xDistanceFromTarget + yDistanceFromTarget;
 		float xPercentOfMovement = xDistanceFromTarget / totalDistanceFromTarget;
 		xVelocity = xPercentOfMovement;
@@ -41,9 +45,16 @@ public class Projectile {
 	}
 
 	public void update() {
-		x += xVelocity * speed * Delta();
-		y += yVelocity * speed * Delta();
-		draw();
+		if (alive) {
+			x += xVelocity * speed * Delta();
+			y += yVelocity * speed * Delta();
+			if (CheckCollision(x, y, texture.getWidth(), texture.getHeight(), target.getX(), target.getY(), target.getWidth(), target.getHeight())) {
+				System.out.println("Projectile hit its target.");
+				target.damage(damage);
+				alive = false;
+			}
+			draw();
+		}
 	}
 
 	public void draw() {
