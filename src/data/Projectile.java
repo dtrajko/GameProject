@@ -29,18 +29,20 @@ public class Projectile {
 	}
 
 	private void calculateDirection() {
-		float totalAllowedMovement = 1.0f;
-		float xDistanceFromTarget = Math.abs(target.getX() - x + Game.TILE_SIZE / 4);
-		float yDistanceFromTarget = Math.abs(target.getY() - y + Game.TILE_SIZE / 4);
-		float totalDistanceFromTarget = xDistanceFromTarget + yDistanceFromTarget;
-		float xPercentOfMovement = xDistanceFromTarget / totalDistanceFromTarget;
-		xVelocity = xPercentOfMovement;
-		yVelocity = totalAllowedMovement - xPercentOfMovement;
-		if (target.getX() < x) {
-			xVelocity *= -1;
-		}
-		if (target.getY() < y) {
-			yVelocity *= -1;
+		if (target != null) {
+			float totalAllowedMovement = 1.0f;
+			float xDistanceFromTarget = Math.abs(target.getX() - x + Game.TILE_SIZE / 4);
+			float yDistanceFromTarget = Math.abs(target.getY() - y + Game.TILE_SIZE / 4);
+			float totalDistanceFromTarget = xDistanceFromTarget + yDistanceFromTarget;
+			float xPercentOfMovement = xDistanceFromTarget / totalDistanceFromTarget;
+			xVelocity = xPercentOfMovement;
+			yVelocity = totalAllowedMovement - xPercentOfMovement;
+			if (target.getX() < x) {
+				xVelocity *= -1;
+			}
+			if (target.getY() < y) {
+				yVelocity *= -1;
+			}			
 		}
 	}
 
@@ -48,10 +50,12 @@ public class Projectile {
 		if (alive) {
 			x += xVelocity * speed * Delta();
 			y += yVelocity * speed * Delta();
-			if (CheckCollision(x, y, texture.getWidth(), texture.getHeight(), target.getX(), target.getY(), target.getWidth(), target.getHeight())) {
-				System.out.println("Projectile hit its target.");
-				target.damage(damage);
-				alive = false;
+			if (target != null) {
+				if (CheckCollision(x, y, texture.getWidth(), texture.getHeight(), target.getX(), target.getY(), target.getWidth(), target.getHeight())) {
+					System.out.println("Projectile hit its target.");
+					target.damage(damage);
+					alive = false;
+				}				
 			}
 			draw();
 		}
