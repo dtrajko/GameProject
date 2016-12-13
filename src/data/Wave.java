@@ -33,8 +33,8 @@ public class Wave {
 		for (Enemy e: enemyList) {
 			if (e.isAlive()) {
 				allEnemiesDead = false;
-				e.Update();
-				e.Draw();
+				e.update();
+				e.draw();
 			}
 		}
 		if (allEnemiesDead && enemyList.size() == enemiesPerWave) {

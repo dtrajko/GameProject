@@ -8,7 +8,7 @@ import static helpers.Clock.*;
 
 import java.util.ArrayList;
 
-public class Enemy {
+public class Enemy implements Entity {
 
 	private int width, height, health, currentCheckpoint;
 	private float x, y, speed;
@@ -42,7 +42,7 @@ public class Enemy {
 		PopulateCheckpointList();
 	}
 
-	public void Update() {
+	public void update() {
 		if (first)
 			first = false;
 		else {
@@ -155,7 +155,7 @@ public class Enemy {
 		alive = false;
 	}
 
-	public void Draw() {
+	public void draw() {
 		DrawQuadTex(texture, x, y, width, height);
 	}
 
