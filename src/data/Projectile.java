@@ -2,7 +2,6 @@ package data;
 
 import static helpers.Artist.*;
 import static helpers.Clock.*;
-
 import org.newdawn.slick.opengl.Texture;
 
 public class Projectile {
@@ -17,8 +16,8 @@ public class Projectile {
 		this.texture = texture;
 		this.x = x;
 		this.y = y;
-		this.width = width;
-		this.height = height;
+		this.setWidth(width);
+		this.setHeight(height);
 		this.speed = speed;
 		this.damage = damage;
 		this.target = target;
@@ -31,8 +30,8 @@ public class Projectile {
 	private void calculateDirection() {
 		if (target != null) {
 			float totalAllowedMovement = 1.0f;
-			float xDistanceFromTarget = Math.abs(target.getX() - x + Game.TILE_SIZE / 4);
-			float yDistanceFromTarget = Math.abs(target.getY() - y + Game.TILE_SIZE / 4);
+			float xDistanceFromTarget = Math.abs(target.getX() - x + TILE_SIZE / 4);
+			float yDistanceFromTarget = Math.abs(target.getY() - y + TILE_SIZE / 4);
 			float totalDistanceFromTarget = xDistanceFromTarget + yDistanceFromTarget;
 			float xPercentOfMovement = xDistanceFromTarget / totalDistanceFromTarget;
 			xVelocity = xPercentOfMovement;
@@ -48,10 +47,10 @@ public class Projectile {
 
 	public void update() {
 		if (alive) {
-			x += xVelocity * speed * Delta();
-			y += yVelocity * speed * Delta();
+			x += xVelocity * speed * delta();
+			y += yVelocity * speed * delta();
 			if (target != null) {
-				if (CheckCollision(x, y, texture.getWidth(), texture.getHeight(), target.getX(), target.getY(), target.getWidth(), target.getHeight())) {
+				if (checkCollision(x, y, texture.getWidth(), texture.getHeight(), target.getX(), target.getY(), target.getWidth(), target.getHeight())) {
 					System.out.println("Projectile hit its target.");
 					target.damage(damage);
 					alive = false;
@@ -62,6 +61,22 @@ public class Projectile {
 	}
 
 	public void draw() {
-		DrawQuadTex(texture, x, y, 32, 32);
+		drawQuadTex(texture, x, y, 32, 32);
+	}
+
+	public float getWidth() {
+		return width;
+	}
+
+	public void setWidth(float width) {
+		this.width = width;
+	}
+
+	public float getHeight() {
+		return height;
+	}
+
+	public void setHeight(float height) {
+		this.height = height;
 	}
 }

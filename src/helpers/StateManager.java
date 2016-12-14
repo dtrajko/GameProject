@@ -43,7 +43,7 @@ public class StateManager {
 			if (game == null) {
 				game = new Game(map);
 			}
-			Clock.Pause();
+			Clock.pause();
 			game.update();
 			break;
 		case EDITOR:

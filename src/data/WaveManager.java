@@ -11,7 +11,7 @@ public class WaveManager {
 		this.enemyType = enemyType;
 		this.timeBetweenEnemies = timeBetweenEnemies;
 		this.enemiesPerWave = enemiesPerWave;
-		this.timeSinceLastWave = 0;
+		this.setTimeSinceLastWave(0);
 		this.waveNumber = 0;
 		this.currentWave = null;
 		newWave();
@@ -19,7 +19,7 @@ public class WaveManager {
 
 	public void update() {		
 		if (!currentWave.isCompleted()) {
-			currentWave.Update();
+			currentWave.update();
 		} else {
 			System.out.println("Wave is over!");
 			newWave();
@@ -34,5 +34,13 @@ public class WaveManager {
 	
 	public Wave getCurrentWave() {
 		return currentWave;
+	}
+
+	public float getTimeSinceLastWave() {
+		return timeSinceLastWave;
+	}
+
+	public void setTimeSinceLastWave(float timeSinceLastWave) {
+		this.timeSinceLastWave = timeSinceLastWave;
 	}
 }

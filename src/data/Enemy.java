@@ -1,12 +1,9 @@
 package data;
 
-import org.newdawn.slick.opengl.Texture;
-import org.newdawn.slick.util.Log;
-
+import java.util.ArrayList;
 import static helpers.Artist.*;
 import static helpers.Clock.*;
-
-import java.util.ArrayList;
+import org.newdawn.slick.opengl.Texture;
 
 public class Enemy implements Entity {
 
@@ -36,31 +33,30 @@ public class Enemy implements Entity {
 		this.directions[0] = 0;
 		// Y direction
 		this.directions[1] = 0;
-
-		directions = FindNextD(startTile);
+		directions = findNextD(startTile);
 		this.currentCheckpoint = 0;
-		PopulateCheckpointList();
+		populateCheckpointList();
 	}
 
 	public void update() {
-		if (first)
-			first = false;
-		else {
-			if (CheckpointReached()) {
+		if (first) {
+			first = false;			
+		} else {
+			if (checkpointReached()) {
 				if (currentCheckpoint + 1 == checkpoints.size()) {
 					System.out.println("Enemy Reached End of Maze");
-					Die();
+					die();
 				} else {
 					currentCheckpoint++;
 				}
 			} else {
-				x += Delta() * checkpoints.get(currentCheckpoint).getxDirection() * speed;
-				y += Delta() * checkpoints.get(currentCheckpoint).getyDirection() * speed;
+				x += delta() * checkpoints.get(currentCheckpoint).getxDirection() * speed;
+				y += delta() * checkpoints.get(currentCheckpoint).getyDirection() * speed;
 			}
 		}
 	}
 
-	private boolean CheckpointReached() {
+	private boolean checkpointReached() {
 		boolean reached = false;
 		Tile t = checkpoints.get(currentCheckpoint).getTile();
 		if (x > t.getX() - 3 && x < t.getX() + 3 && 
@@ -72,24 +68,24 @@ public class Enemy implements Entity {
 		return reached;
 	}
 
-	private void PopulateCheckpointList() {
-		checkpoints.add(FindNextC(startTile, directions = FindNextD(startTile)));
+	private void populateCheckpointList() {
+		checkpoints.add(findNextC(startTile, directions = findNextD(startTile)));
 		int counter = 0;
 		boolean cont = true;
 		while(cont) {
-			int[] currentD = FindNextD(checkpoints.get(counter).getTile());
+			int[] currentD = findNextD(checkpoints.get(counter).getTile());
 			// Check if a next direction/checkpoint exists, end after 20 checkpoints (arbitrary)
 			if (currentD[0] == 2 || counter == 20) {
 				cont = false;
 			} else {
-				checkpoints.add(FindNextC(checkpoints.get(counter).getTile(),
-						directions = FindNextD(checkpoints.get(counter).getTile())));
+				checkpoints.add(findNextC(checkpoints.get(counter).getTile(),
+						directions = findNextD(checkpoints.get(counter).getTile())));
 			}
 			counter++;
 		}
 	}
 
-	private Checkpoint FindNextC(Tile s, int[] dir) {
+	private Checkpoint findNextC(Tile s, int[] dir) {
 		Tile next = null;
 		Checkpoint c = null;
 
@@ -101,12 +97,12 @@ public class Enemy implements Entity {
 		while(!found) {
 			if (s.getXPlace() + dir[0] * counter == grid.getTilesWide() ||
 				s.getXPlace() + dir[0] * counter == grid.getTilesWide() ||
-				s.getType() != grid.GetTile(s.getXPlace() + dir[0] * counter, 
+				s.getType() != grid.getTile(s.getXPlace() + dir[0] * counter, 
 							s.getYPlace() + dir[1] * counter).getType()) {
 				found = true;
 				// Move counter back 1 to find tile before new tileType
 				counter -= 1;
-				next = grid.GetTile(s.getXPlace() + dir[0] * counter, 
+				next = grid.getTile(s.getXPlace() + dir[0] * counter, 
 						s.getYPlace() + dir[1] * counter);
 			}
 			counter++;
@@ -116,12 +112,12 @@ public class Enemy implements Entity {
 		return c;
 	}
 
-	private int[] FindNextD(Tile s) {
+	private int[] findNextD(Tile s) {
 		int[] dir = new int[2];
-		Tile u = grid.GetTile(s.getXPlace(), s.getYPlace() - 1);
-		Tile r = grid.GetTile(s.getXPlace() + 1, s.getYPlace());
-		Tile d = grid.GetTile(s.getXPlace(), s.getYPlace() + 1);
-		Tile l = grid.GetTile(s.getXPlace() - 1, s.getYPlace());
+		Tile u = grid.getTile(s.getXPlace(), s.getYPlace() - 1);
+		Tile r = grid.getTile(s.getXPlace() + 1, s.getYPlace());
+		Tile d = grid.getTile(s.getXPlace(), s.getYPlace() + 1);
+		Tile l = grid.getTile(s.getXPlace() - 1, s.getYPlace());
 
 		if (s.getType() == u.getType() && directions[1] != 1) {
 			dir[0] = 0;
@@ -147,16 +143,16 @@ public class Enemy implements Entity {
 	public void damage(int amount) {
 		health -= amount;
 		if (health <= 0) {
-			Die();
+			die();
 		}
 	}
 
-	private void Die() {
+	private void die() {
 		alive = false;
 	}
 
 	public void draw() {
-		DrawQuadTex(texture, x, y, width, height);
+		drawQuadTex(texture, x, y, width, height);
 	}
 
 	public int getWidth() {

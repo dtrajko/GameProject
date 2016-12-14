@@ -1,7 +1,6 @@
 package helpers;
 
 import org.lwjgl.Sys;
-import org.newdawn.slick.util.Log;
 
 public class Clock {
 
@@ -22,18 +21,18 @@ public class Clock {
 		return delta * 0.01f;
 	}
 
-	public static float Delta() {
+	public static float delta() {
 		if (paused)
 			return 0;
 		else
 			return d * multiplier;
 	}
 	
-	public static float TotalTime() {
+	public static float totalTime() {
 		return totalTime;
 	}
 	
-	public static float Multiplier() {
+	public static float multiplier() {
 		return multiplier;
 	}
 	
@@ -42,7 +41,7 @@ public class Clock {
 		totalTime += d;
 	}
 	
-	public static void ChangeMultiplier(float change) {
+	public static void changeMultiplier(float change) {
 		if (multiplier + change < -1 && multiplier + change > 7) {
 			// pass
 		} else {
@@ -50,7 +49,7 @@ public class Clock {
 		}
 	}
 
-	public static void Pause() {
+	public static void pause() {
 		if (paused)
 			paused = false;
 		else

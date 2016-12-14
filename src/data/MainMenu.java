@@ -15,7 +15,7 @@ public class MainMenu {
 	private boolean leftMouseButtonDown;
 
 	public MainMenu() {
-		background = QuickLoad("mainmenu");
+		background = quickLoad("mainmenu");
 		menuUI = new UI();
 		menuUI.addButton("Play", "playButton", WIDTH / 2 - 128, (int) (HEIGHT * 0.45f));
 		menuUI.addButton("Editor", "editorButton", WIDTH / 2 - 128, (int) (HEIGHT * 0.55f));
@@ -42,7 +42,7 @@ public class MainMenu {
 	}
 
 	public void update() {
-		DrawQuadTex(background, 0, 0, 2048, 1024);
+		drawQuadTex(background, 0, 0, 2048, 1024);
 		menuUI.draw();
 		updateButtons();
 	}

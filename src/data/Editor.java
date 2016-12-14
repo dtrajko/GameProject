@@ -1,14 +1,13 @@
 package data;
 
+import helpers.Clock;
+import helpers.Artist;
 import static helpers.Artist.*;
 import static helpers.Leveler.*;
-
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.input.Mouse;
-
-import helpers.Clock;
 import helpers.StateManager;
 import helpers.StateManager.GameState;
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 
 public class Editor {
 
@@ -30,7 +29,7 @@ public class Editor {
 	}
 
 	public void update() {
-		grid.Draw();
+		grid.draw();
 
 		// Handle Mouse Input
 		if (Mouse.isButtonDown(0) && !leftMouseButtonDown) {
@@ -56,15 +55,15 @@ public class Editor {
 
 			if ((Keyboard.getEventKey() == Keyboard.KEY_ESCAPE || Keyboard.getEventKey() == Keyboard.KEY_P) &&
 					Keyboard.getEventKeyState()) {
-				Clock.Pause();
+				Clock.pause();
 				StateManager.setState(GameState.MAINMENU);
 			}
 		}
 	}
 
 	public void setTile() {
-		grid.SetTile((int) Math.floor(Mouse.getX() / Game.TILE_SIZE), 
-			(int) Math.floor((HEIGHT - Mouse.getY() - 1) / Game.TILE_SIZE), types[index]);
+		grid.setTile((int) Math.floor(Mouse.getX() / TILE_SIZE), 
+			(int) Math.floor((Artist.HEIGHT - Mouse.getY() - 1) / TILE_SIZE), types[index]);
 	}
 
 	private void moveIndex() {

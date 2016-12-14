@@ -3,12 +3,9 @@ package helpers;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-
-import data.Game;
 import data.Tile;
 import data.TileGrid;
 import data.TileType;
@@ -19,7 +16,7 @@ public class Leveler {
 		String mapData = "";
 		for (int i = 0; i < grid.getTilesWide(); i++) {
 			for (int j = 0; j < grid.getTilesHigh(); j++) {
-				mapData += getTileID(grid.GetTile(i, j));
+				mapData += getTileID(grid.getTile(i, j));
 			}
 		}
 
@@ -29,7 +26,6 @@ public class Leveler {
 			bw.write(mapData);
 			bw.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -42,11 +38,11 @@ public class Leveler {
 			String data = br.readLine();
 			for (int i = 0; i < grid.getTilesWide(); i++) {
 				for (int j = 0; j < grid.getTilesHigh(); j++) {
-					grid.SetTile(i, j, getTileType(data.substring(i * grid.getTilesHigh() + j, i * grid.getTilesHigh() + j + 1)));
+					grid.setTile(i, j, getTileType(data.substring(i * grid.getTilesHigh() + j, i * grid.getTilesHigh() + j + 1)));
 				}
 			}
+			br.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return grid;

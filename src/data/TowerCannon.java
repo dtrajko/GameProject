@@ -3,7 +3,6 @@ package data;
 import org.newdawn.slick.opengl.Texture;
 import static helpers.Artist.*;
 import static helpers.Clock.*;
-
 import java.util.ArrayList;
 
 public class TowerCannon {
@@ -19,21 +18,19 @@ public class TowerCannon {
 
 	public TowerCannon(Texture baseTexture, Tile startTile, int damage, int range, ArrayList<Enemy> enemies) {
 		this.baseTexture = baseTexture;
-		this.cannonTexture = QuickLoad("cannonGun");
-		this.startTile = startTile;
+		this.cannonTexture = quickLoad("cannonGun");
+		this.setStartTile(startTile);
 		this.x = startTile.getX();
 		this.y = startTile.getY();
 		this.width = (int) startTile.getWidth();
 		this.height = (int) startTile.getHeight();
-		this.damage = damage;
+		this.setDamage(damage);
 		this.range = range;
 		this.firingSpeed = 1;
 		this.timeSinceLastShot = 0;
 		this.projectiles = new ArrayList<Projectile>();
 		this.enemies = enemies;
 		this.targeted = false;
-		// this.target = aquireTarget();
-		// this.angle = calculateAngle();
 	}
 
 	private Enemy aquireTarget() {
@@ -76,10 +73,9 @@ public class TowerCannon {
 	}
 
 	private void shoot() {
-		// TODO Auto-generated method stub
 		timeSinceLastShot = 0;
-		projectiles.add(new Projectile(QuickLoad("bullet"), target, 
-		    x + Game.TILE_SIZE / 4, y + Game.TILE_SIZE / 4, Game.TILE_SIZE / 2, Game.TILE_SIZE / 2, 900, 10));
+		projectiles.add(new Projectile(quickLoad("bullet"), target,
+		    x + TILE_SIZE / 4, y + TILE_SIZE / 4, TILE_SIZE / 2, TILE_SIZE / 2, 900, 10));
 	}
 
 	public void updateEnemyList(ArrayList<Enemy> newList) {
@@ -91,27 +87,39 @@ public class TowerCannon {
 		if (!targeted) {
 			this.target = aquireTarget();
 		}
-
 		if (target != null && target.isAlive()) {
 			angle = calculateAngle();
 		} else {
 			targeted = false;
 		}
-
-		timeSinceLastShot += Delta();
+		timeSinceLastShot += delta();
 		if (timeSinceLastShot > firingSpeed) {
 			shoot();
 		}
-		
 		for (Projectile p: projectiles) {
 			p.update();
 		}
-
 		draw();
 	}
 
 	public void draw() {
-		DrawQuadTex(baseTexture, x, y, width, height);
-		DrawQuadTexRot(cannonTexture, x, y, width, height, angle);
+		drawQuadTex(baseTexture, x, y, width, height);
+		drawQuadTexRot(cannonTexture, x, y, width, height, angle);
+	}
+
+	public int getDamage() {
+		return damage;
+	}
+
+	public void setDamage(int damage) {
+		this.damage = damage;
+	}
+
+	public Tile getStartTile() {
+		return startTile;
+	}
+
+	public void setStartTile(Tile startTile) {
+		this.startTile = startTile;
 	}
 }
