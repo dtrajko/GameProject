@@ -2,12 +2,13 @@ package data;
 
 import static helpers.Artist.*;
 
+import org.lwjgl.input.Mouse;
+
 public class Game {
 
 	private TileGrid grid;
 	private Player player;
 	private static WaveManager waveManager;
-
 	private float test;
 
 	// Temp variables
@@ -15,7 +16,7 @@ public class Game {
 
 	public Game(int[][] map) {
 		this.grid = new TileGrid(map);
-		Enemy e = new Enemy(quickLoad("UFO64"), grid.getTile(1, 0), grid, TILE_SIZE, TILE_SIZE, 70, 25);
+		Enemy e = new Enemy(quickLoad("UFO64"), grid.getTile(0, 5), grid, TILE_SIZE, TILE_SIZE, 100, 100);
 		waveManager = new WaveManager(e, 2, 3);
 		this.player = new Player(grid, waveManager);
 	}
