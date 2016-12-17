@@ -5,9 +5,9 @@ import static helpers.Artist.*;
 
 public enum TowerType {
 
-	CannonRed(new Texture[] { quickLoad("cannonBase"), quickLoad("cannonGun") }, 10, 1000, 2),
-	CannonBlue(new Texture[] { quickLoad("cannonBaseBlue"), quickLoad("cannonGunBlue") }, 30, 1000, 2),
-	CannonIce(new Texture[] { quickLoad("cannonIceBase2"), quickLoad("cannonIceGun2") }, 30, 1000, 2);
+	CannonRed(new Texture[] { quickLoad("cannonBase"), quickLoad("cannonGun") }, 10, 1000, 1.5f),
+	CannonBlue(new Texture[] { quickLoad("cannonBaseBlue"), quickLoad("cannonGunBlue") }, 30, 1000, 1.5f),
+	CannonIce(new Texture[] { quickLoad("cannonIceBase2"), quickLoad("cannonIceGun2") }, 30, 1000, 1.5f);
 
 	Texture[] textures;
 	int damage, range;

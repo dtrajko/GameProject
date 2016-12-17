@@ -4,6 +4,7 @@ import static helpers.Artist.*;
 import static helpers.Clock.delta;
 
 import java.util.ArrayList;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.newdawn.slick.opengl.Texture;
 
@@ -13,11 +14,11 @@ public abstract class Tower implements Entity {
 	private int width, height, damage, range;
 	private Enemy target;
 	private Texture[] textures;
-	private ArrayList<Enemy> enemies;
+	private CopyOnWriteArrayList<Enemy> enemies;
 	private boolean targeted;
 	private ArrayList<Projectile> projectiles;
 
-	public Tower(TowerType type, Tile startTile, ArrayList<Enemy> enemies) {
+	public Tower(TowerType type, Tile startTile, CopyOnWriteArrayList<Enemy> enemies) {
 		this.textures = type.textures;
 		this.damage = type.damage;
 		this.range = type.range;
@@ -36,8 +37,11 @@ public abstract class Tower implements Entity {
 	private Enemy aquireTarget() {
 		Enemy closest = null;
 		float closestDistance = 10000;
+		int enemy_index = 0;
 		for (Enemy e: enemies) {
-			if (isInRange(e)) {
+			enemy_index++;
+			if (e.isAlive() && isInRange(e)) {
+				System.out.println("Enemy " + enemy_index + " is in range.");
 				if (findDistance(e) < closestDistance) {
 					closestDistance = findDistance(e);
 					closest = e;
@@ -77,24 +81,22 @@ public abstract class Tower implements Entity {
 		    x + TILE_SIZE / 4, y + TILE_SIZE / 4, TILE_SIZE / 2, TILE_SIZE / 2, 900, 10));
 	}
 
-	public void updateEnemyList(ArrayList<Enemy> newList) {
+	public void updateEnemyList(CopyOnWriteArrayList<Enemy> newList) {
 		enemies = newList;
 	}
 
 	public void update() {
 
-		if (!targeted) {
-			this.target = aquireTarget();
-		}
 		if (target != null && target.isAlive()) {
 			angle = calculateAngle();
+			timeSinceLastShot += delta();
+			if (timeSinceLastShot > firingSpeed) {
+				shoot();
+			}
 		} else {
-			targeted = false;
+			target = aquireTarget();
 		}
-		timeSinceLastShot += delta();
-		if (timeSinceLastShot > firingSpeed) {
-			shoot();
-		}
+
 		for (Projectile p: projectiles) {
 			p.update();
 		}

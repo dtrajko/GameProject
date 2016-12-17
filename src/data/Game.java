@@ -18,7 +18,8 @@ public class Game {
 		this.grid = new TileGrid(map);
 		Enemy e = new Enemy(quickLoad("UFO64"), grid.getTile(0, 5), grid, TILE_SIZE, TILE_SIZE, 100, 100);
 		waveManager = new WaveManager(e, 2, 3);
-		this.player = new Player(grid, waveManager);
+		player = new Player(grid, waveManager);
+		player.setup();
 	}
 
 	public void update() {

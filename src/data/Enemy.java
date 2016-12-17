@@ -49,7 +49,7 @@ public class Enemy implements Entity {
 			if (checkpointReached()) {
 				if (currentCheckpoint + 1 == checkpoints.size()) {
 					System.out.println("Enemy Reached End of Maze");
-					die();
+					endOfMazeReached();
 				} else {
 					currentCheckpoint++;
 				}
@@ -58,6 +58,11 @@ public class Enemy implements Entity {
 				y += delta() * checkpoints.get(currentCheckpoint).getyDirection() * speed;
 			}
 		}
+	}
+
+	private void endOfMazeReached() {
+		Player.modifyLives(-1);
+		die();
 	}
 
 	private boolean checkpointReached() {
@@ -148,6 +153,7 @@ public class Enemy implements Entity {
 		health -= amount;
 		if (health <= 0) {
 			die();
+			Player.modifyCash(5);
 		}
 	}
 
