@@ -14,6 +14,7 @@ public class Player {
 	private WaveManager waveManager;
 	private ArrayList<Tower> towerList;
 	private boolean leftMouseButtonDown, rightMouseButtonDown;
+	public static int cash, lives;
 
 	public Player(TileGrid grid, WaveManager waveManager) {
 		this.grid = grid;
