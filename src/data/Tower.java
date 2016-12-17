@@ -87,19 +87,25 @@ public abstract class Tower implements Entity {
 
 	public void update() {
 
-		if (target != null && target.isAlive()) {
+		if (!targeted) {
+			target = aquireTarget();
+		} else {
 			angle = calculateAngle();
-			timeSinceLastShot += delta();
 			if (timeSinceLastShot > firingSpeed) {
 				shoot();
 			}
-		} else {
-			target = aquireTarget();
 		}
+
+		if (target == null || target.isAlive() == false) {
+			targeted = false;
+		}
+		
+		timeSinceLastShot += delta();
 
 		for (Projectile p: projectiles) {
 			p.update();
 		}
+
 		draw();
 	}
 
