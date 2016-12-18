@@ -10,15 +10,22 @@ import org.newdawn.slick.opengl.Texture;
 
 public abstract class Tower implements Entity {
 
-	private float x, y, timeSinceLastShot, firingSpeed, angle;
+	public TowerType type;
+	public Enemy target;
+
+	protected float timeSinceLastShot;
+	protected ArrayList<Projectile> projectiles;
+	protected float x, y;
+
+	private float firingSpeed, angle;
 	private int width, height, damage, range;
-	private Enemy target;
 	private Texture[] textures;
 	private CopyOnWriteArrayList<Enemy> enemies;
 	private boolean targeted;
-	private ArrayList<Projectile> projectiles;
-
+  
 	public Tower(TowerType type, Tile startTile, CopyOnWriteArrayList<Enemy> enemies) {
+		System.out.println("Tower type: " + type);
+		this.type = type;
 		this.textures = type.textures;
 		this.damage = type.damage;
 		this.range = type.range;
@@ -75,11 +82,7 @@ public abstract class Tower implements Entity {
 		return (float) Math.toDegrees(angleTemp) - 90;
 	}
 
-	public void shoot() {
-		timeSinceLastShot = 0;
-		projectiles.add(new ProjectileIceball(quickLoad("projectileIceball"), target,
-		    x + TILE_SIZE / 4, y + TILE_SIZE / 4, TILE_SIZE / 2, TILE_SIZE / 2, 900, 10));
-	}
+	public abstract void shoot(Enemy target);
 
 	public void updateEnemyList(CopyOnWriteArrayList<Enemy> newList) {
 		enemies = newList;
@@ -92,14 +95,14 @@ public abstract class Tower implements Entity {
 		} else {
 			angle = calculateAngle();
 			if (timeSinceLastShot > firingSpeed) {
-				shoot();
+				shoot(target);
 			}
 		}
 
 		if (target == null || target.isAlive() == false) {
 			targeted = false;
 		}
-		
+
 		timeSinceLastShot += delta();
 
 		for (Projectile p: projectiles) {
