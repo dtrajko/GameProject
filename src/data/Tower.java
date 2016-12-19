@@ -2,7 +2,6 @@ package data;
 
 import static helpers.Artist.*;
 import static helpers.Clock.delta;
-
 import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -18,7 +17,7 @@ public abstract class Tower implements Entity {
 	protected float x, y;
 
 	private float firingSpeed, angle;
-	private int width, height, damage, range;
+	private int width, height, range;
 	private Texture[] textures;
 	private CopyOnWriteArrayList<Enemy> enemies;
 	private boolean targeted;
@@ -27,7 +26,6 @@ public abstract class Tower implements Entity {
 		System.out.println("Tower type: " + type);
 		this.type = type;
 		this.textures = type.textures;
-		this.damage = type.damage;
 		this.range = type.range;
 		this.x = startTile.getX();
 		this.y = startTile.getY();
@@ -43,8 +41,10 @@ public abstract class Tower implements Entity {
 
 	private Enemy aquireTarget() {
 		Enemy closest = null;
+		//Arbitrary distance (larger than map), to help with sorting Enemy distances
 		float closestDistance = 10000;
 		int enemy_index = 0;
+		// Go through each Enemy in enemy list and return nearest one
 		for (Enemy e: enemies) {
 			enemy_index++;
 			if (e.isAlive() && isInRange(e)) {
@@ -55,6 +55,7 @@ public abstract class Tower implements Entity {
 				}
 			}
 		}
+		// If an enemy exists and is returned, targeted => true
 		if (closest != null) {
 			targeted = true;
 		}
@@ -82,6 +83,7 @@ public abstract class Tower implements Entity {
 		return (float) Math.toDegrees(angleTemp) - 90;
 	}
 
+	// Abstract method for shoot(), must be overridden in subclasses
 	public abstract void shoot(Enemy target);
 
 	public void updateEnemyList(CopyOnWriteArrayList<Enemy> newList) {

@@ -18,12 +18,10 @@ public class WaveManager {
 	}
 
 	public void update() {		
-		if (!currentWave.isCompleted()) {
+		if (!currentWave.isCompleted())
 			currentWave.update();
-		} else {
-			System.out.println("Wave is over!");
+		else
 			newWave();
-		}
 	}
 
 	private void newWave() {

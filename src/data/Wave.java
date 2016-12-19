@@ -1,8 +1,6 @@
 package data;
 
-import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
-
 import static helpers.Clock.*;
 import static helpers.Artist.*;
 
@@ -25,6 +23,7 @@ public class Wave {
 	}
 
 	public void update() {
+		// Assume all enemies are dead, until for loop proves otherwise
 		boolean allEnemiesDead = true;
 		if (enemiesSpawned < enemiesPerWave) {
 			timeSinceLastSpawn += delta();
@@ -38,13 +37,11 @@ public class Wave {
 				allEnemiesDead = false;
 				e.update();
 				e.draw();
-			} else {
+			} else
 				enemyList.remove(e);
-			}
 		}
-		if (allEnemiesDead && enemiesSpawned == enemiesPerWave) {
+		if (allEnemiesDead && enemiesSpawned == enemiesPerWave)
 			waveCompleted = true;
-		}
 	}
 
 	public void spawn() {

@@ -8,9 +8,8 @@ import java.util.ArrayList;
 public class TowerCannon {
 
 	private float x, y, timeSinceLastShot, firingSpeed, angle;
-	private int width, height, damage, range;
+	private int width, height, range;
 	private Texture baseTexture, cannonTexture;
-	private Tile startTile;
 	private ArrayList<Projectile> projectiles;
 	private ArrayList<Enemy> enemies;
 	private Enemy target;
@@ -19,12 +18,10 @@ public class TowerCannon {
 	public TowerCannon(Texture baseTexture, Tile startTile, int damage, int range, ArrayList<Enemy> enemies) {
 		this.baseTexture = baseTexture;
 		this.cannonTexture = quickLoad("cannonGun");
-		this.setStartTile(startTile);
 		this.x = startTile.getX();
 		this.y = startTile.getY();
 		this.width = (int) startTile.getWidth();
 		this.height = (int) startTile.getHeight();
-		this.setDamage(damage);
 		this.range = range;
 		this.firingSpeed = 1;
 		this.timeSinceLastShot = 0;
@@ -34,7 +31,6 @@ public class TowerCannon {
 	}
 
 	private Enemy aquireTarget() {
-		// enemies = Game.getWaveManager().getCurrentWave().getEnemyList();
 		Enemy closest = null;
 		float closestDistance = 10000;
 		for (Enemy e: enemies) {
@@ -103,21 +99,5 @@ public class TowerCannon {
 	public void draw() {
 		drawQuadTex(baseTexture, x, y, width, height);
 		drawQuadTexRot(cannonTexture, x, y, width, height, angle);
-	}
-
-	public int getDamage() {
-		return damage;
-	}
-
-	public void setDamage(int damage) {
-		this.damage = damage;
-	}
-
-	public Tile getStartTile() {
-		return startTile;
-	}
-
-	public void setStartTile(Tile startTile) {
-		this.startTile = startTile;
 	}
 }

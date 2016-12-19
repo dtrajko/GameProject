@@ -4,7 +4,6 @@ import static org.lwjgl.opengl.GL11.*;
 
 import java.io.IOException;
 import java.io.InputStream;
-
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
@@ -23,8 +22,7 @@ public class Artist {
 			Display.setDisplayMode(new DisplayMode(WIDTH, HEIGHT));
 			Display.create();
 		} catch (LWJGLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			e.printStackTrace();			
 		}
 
 		glMatrixMode(GL_PROJECTION);

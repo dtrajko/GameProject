@@ -19,11 +19,11 @@ public class Editor {
 	
 	public Editor() {
 		this.grid = loadMap("newMap1");
+		this.index = 0;
 		this.types= new TileType[3];
 		this.types[0] = TileType.Grass;
 		this.types[1] = TileType.Dirt;
 		this.types[2] = TileType.Water;
-		this.index = 0;
 		this.leftMouseButtonDown = false;
 		this.rightMouseButtonDown = false;
 	}
@@ -66,6 +66,7 @@ public class Editor {
 			(int) Math.floor((Artist.HEIGHT - Mouse.getY() - 1) / TILE_SIZE), types[index]);
 	}
 
+	// Allows editor to change which TileType is selected
 	private void moveIndex() {
 		index++;
 		if (index > types.length - 1) {

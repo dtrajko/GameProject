@@ -36,6 +36,7 @@ public abstract class Projectile implements Entity {
 			float xPercentOfMovement = xDistanceFromTarget / totalDistanceFromTarget;
 			xVelocity = xPercentOfMovement;
 			yVelocity = totalAllowedMovement - xPercentOfMovement;
+			// Set direction based on position of target relative to tower
 			if (target.getX() < x) {
 				xVelocity *= -1;
 			}
@@ -45,6 +46,7 @@ public abstract class Projectile implements Entity {
 		}
 	}
 
+	//Deal damage to Enemy
 	public void damage() {
 		target.damage(damage);
 		alive = false;

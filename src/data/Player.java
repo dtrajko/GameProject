@@ -26,6 +26,7 @@ public class Player {
 		this.lives = 0;
 	}
 
+	// Initialize cash and lives values for Player
 	public void setup() {
 		cash = 200;
 		lives = 10;
@@ -47,6 +48,7 @@ public class Player {
 	}
 
 	public void update() {
+		// Update all towers in the game
 		for (Tower t: towerList) {
 			t.update();
 			t.updateEnemyList(waveManager.getCurrentWave().getEnemyList());
