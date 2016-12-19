@@ -17,7 +17,7 @@ public abstract class Tower implements Entity {
 	protected float x, y;
 
 	private float firingSpeed, angle;
-	private int width, height, range;
+	private int width, height, range, cost;
 	private Texture[] textures;
 	private CopyOnWriteArrayList<Enemy> enemies;
 	private boolean targeted;
@@ -27,6 +27,7 @@ public abstract class Tower implements Entity {
 		this.type = type;
 		this.textures = type.textures;
 		this.range = type.range;
+		this.cost = type.cost;
 		this.x = startTile.getX();
 		this.y = startTile.getY();
 		this.width = startTile.getWidth();
@@ -170,5 +171,9 @@ public abstract class Tower implements Entity {
 
 	public void setTarget(Enemy target) {
 		this.target = target;
+	}
+
+	public int getCost() {
+		return cost;
 	}
 }
