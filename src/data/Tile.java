@@ -9,6 +9,7 @@ public class Tile {
 	private int width, height;
 	private Texture texture;
 	private TileType type;
+	private boolean occupied;
 
 	public Tile(float x, float y, int width, int height, TileType type) {
 		this.x = x;
@@ -17,8 +18,13 @@ public class Tile {
 		this.height = height;
 		this.type = type;
 		this.texture = quickLoad(type.textureName);
+		if (type.buildable) {
+			occupied = false;
+		} else {
+			occupied = true;
+		}
 	}
-	
+
 	public void Draw() {
 		drawQuadTex(texture, x, y, width, height);
 	}
@@ -78,5 +84,12 @@ public class Tile {
 	public void setType(TileType type) {
 		this.type = type;
 	}
-}
 
+	public boolean getOccupied() {
+		return occupied;
+	}
+
+	public void setOccupied(boolean occupied) {
+		this.occupied = occupied;
+	}
+}
