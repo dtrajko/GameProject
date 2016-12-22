@@ -53,8 +53,15 @@ public class Player {
 	public void update() {
 		// Update holding tower
 		if (holdingTower) {
-			tempTower.setX(getMouseTile().getX());
-			tempTower.setY(getMouseTile().getY());
+			float mouseX = getMouseTile().getX();
+			float mouseY = getMouseTile().getY();
+			if (mouseX > 0 && mouseX < this.grid.getTilesWide() * TILE_SIZE) {
+				tempTower.setX(mouseX);
+			}
+			if (mouseY > 0 && mouseY < this.grid.getTilesHigh() * TILE_SIZE) {
+				tempTower.setY(mouseY);
+			}
+			// System.out.println("Player update: mouseX = " + mouseX + ", mouseY = " + mouseY);
 			tempTower.draw();
 		}
 
@@ -101,6 +108,7 @@ public class Player {
 				towerList.add(tower);
 				holdingTower = false;
 				tempTower = null;
+				System.out.println("Placed tower " + tower.type.name());
 			}
 		}
 	}

@@ -4,11 +4,14 @@ import static helpers.Artist.*;
 import static helpers.Clock.*;
 import org.newdawn.slick.opengl.Texture;
 
+import helpers.Artist;
+
 public abstract class Projectile implements Entity {
 
 	private Texture texture;
 	private float x, y, speed, xVelocity, yVelocity;
 	private int width, height, damage;
+	private ProjectileType type;
 	private Enemy target;
 	private boolean alive;
 
@@ -18,6 +21,7 @@ public abstract class Projectile implements Entity {
 		this.y = y;
 		this.width = width;
 		this.height = height;
+		this.type = type;
 		this.speed = type.speed;
 		this.damage = type.damage;
 		this.target = target;
@@ -27,7 +31,7 @@ public abstract class Projectile implements Entity {
 		calculateDirection();
 	}
 
-	private void calculateDirection() {
+	protected void calculateDirection() {
 		if (target != null) {
 			float totalAllowedMovement = 1.0f;
 			float xDistanceFromTarget = Math.abs(target.getX() - x + TILE_SIZE / 4);
@@ -56,13 +60,20 @@ public abstract class Projectile implements Entity {
 		if (alive) {
 			x += xVelocity * speed * delta();
 			y += yVelocity * speed * delta();
-			if (target != null) {
-				if (checkCollision(x, y, texture.getWidth(), texture.getHeight(), target.getX(), target.getY(), target.getWidth(), target.getHeight())) {
-					System.out.println("Projectile hit its target.");
-					damage();
-				}				
+			// don't draw projectiles outside the grid (in the right side menu area)
+			if (x <= 0 || x >= target.getGrid().getTilesWide() * TILE_SIZE - TILE_SIZE / 2 ||
+				y <= 0 || y >= target.getGrid().getTilesHigh() * TILE_SIZE) {
+				alive = false;
 			}
-			draw();
+			if (alive) {
+				if (target != null) {
+					if (checkCollision(x, y, texture.getWidth(), texture.getHeight(), target.getX(), target.getY(), target.getWidth(), target.getHeight())) {
+						System.out.println("Projectile " + this.type.name() + " hit its target.");
+						damage();
+					}				
+				}
+				draw();
+			}
 		}
 	}
 
@@ -117,5 +128,9 @@ public abstract class Projectile implements Entity {
 
 	public void setAlive(boolean status) {
 		alive = status;
+	}
+
+	public ProjectileType getType() {
+		return type;
 	}
 }

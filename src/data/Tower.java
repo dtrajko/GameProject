@@ -23,7 +23,7 @@ public abstract class Tower implements Entity {
 	private boolean targeted;
   
 	public Tower(TowerType type, Tile startTile, CopyOnWriteArrayList<Enemy> enemies) {
-		System.out.println("Tower type: " + type);
+		System.out.println("New Tower " + type + ": X = " + startTile.getX() + ", Y = " + startTile.getY());
 		this.type = type;
 		this.textures = type.textures;
 		this.range = type.range;

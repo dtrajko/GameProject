@@ -47,6 +47,7 @@ public class Button {
 	}
 
 	public void setX(int x) {
+		System.out.println("Button " + this.name + " set X to " + x);
 		this.x = x;
 	}
 
@@ -55,6 +56,7 @@ public class Button {
 	}
 
 	public void setY(int y) {
+		System.out.println("Button " + this.name + " set Y to " + y);
 		this.y = y;
 	}
 

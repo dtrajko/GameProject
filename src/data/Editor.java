@@ -6,6 +6,9 @@ import static helpers.Artist.*;
 import static helpers.Leveler.*;
 import helpers.StateManager;
 import helpers.StateManager.GameState;
+import ui.UI;
+import ui.UI.Menu;
+
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
@@ -16,7 +19,9 @@ public class Editor {
 	private int index;
 	private boolean leftMouseButtonDown;
 	private boolean rightMouseButtonDown;
-	
+	private UI editorUI;
+	private Menu tilePickerMenu;
+
 	public Editor() {
 		this.grid = loadMap("newMap1");
 		this.index = 0;
@@ -26,22 +31,41 @@ public class Editor {
 		this.types[2] = TileType.Water;
 		this.leftMouseButtonDown = false;
 		this.rightMouseButtonDown = false;
+		setupUI();
+	}
+
+	private void setupUI() {
+		drawQuadTex(quickLoad("menu_background"), 1280, 0, 192, HEIGHT);
+		editorUI = new UI();
+		tilePickerMenu = editorUI.createMenu("TilePicker", 1280, 0, 3 * TILE_SIZE, grid.getTilesHigh() * TILE_SIZE, 3, 0);
+		tilePickerMenu.quickAdd("Grass", "grass64");
+		tilePickerMenu.quickAdd("Dirt", "dirt64");
+		tilePickerMenu.quickAdd("Water", "water64");
 	}
 
 	public void update() {
-		grid.draw();
 
 		// Handle Mouse Input
-		if (Mouse.isButtonDown(0) && !leftMouseButtonDown) {
-			System.out.println("Mouse button 0 down.");
-			setTile();
+		if (Mouse.next()) {
+			boolean mouseClicked = Mouse.isButtonDown(0);
+			if (mouseClicked) {
+				if (tilePickerMenu.isButtonClicked("Grass")) {
+					index = 0;
+					System.out.println("Grass button clicked!");
+				} else if (tilePickerMenu.isButtonClicked("Dirt")) {
+					index = 1;
+					System.out.println("Dirt button clicked!");
+				} else if (tilePickerMenu.isButtonClicked("Water")) {
+					index = 2;
+					System.out.println("Water button clicked!");
+				} else {					
+					if (Mouse.getX() > 0 && Mouse.getX() < this.grid.getTilesWide() * TILE_SIZE &&
+						Mouse.getY() > 0 && Mouse.getY() < this.grid.getTilesHigh() * TILE_SIZE) {
+						setTile();
+					}
+				}
+			}
 		}
-		leftMouseButtonDown = Mouse.isButtonDown(0);
-
-		if (Mouse.isButtonDown(1) && !rightMouseButtonDown) {
-
-		}
-		rightMouseButtonDown = Mouse.isButtonDown(1);
 
 		// Handle Keyboard Input
 		while (Keyboard.next()) {
@@ -59,6 +83,12 @@ public class Editor {
 				StateManager.setState(GameState.MAINMENU);
 			}
 		}
+		draw();
+	}
+
+	public void draw() {
+		grid.draw();
+		editorUI.draw();
 	}
 
 	public void setTile() {
