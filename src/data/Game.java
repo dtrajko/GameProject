@@ -20,9 +20,9 @@ public class Game {
 	// Temp variables
 	TowerCannon tower;
 
-	public Game(int[][] map) {
-		this.grid = new TileGrid(map);
-		Enemy e = new Enemy(quickLoad("UFO64"), grid.getTile(0, 5), grid, TILE_SIZE, TILE_SIZE, 100, 100);
+	public Game(TileGrid grid) {
+		this.grid = grid;
+		Enemy e = new Enemy(quickLoad("UFO64"), grid.getTile(2, 2), grid, TILE_SIZE, TILE_SIZE, 100, 100);
 		waveManager = new WaveManager(e, 2, 3);
 		player = new Player(grid, waveManager);
 		player.setup();
@@ -30,9 +30,9 @@ public class Game {
 	}
 
 	private void setupUI() {
-		drawQuadTex(quickLoad("menu_background"), 1280, 0, 192, HEIGHT);
+		drawQuadTex(quickLoad("menu_background_towers"), 1280, 0, 192, HEIGHT);
 		gameUI = new UI();
-		towerPickerMenu = gameUI.createMenu("TowerPicker", 1280, 0, 3 * TILE_SIZE, grid.getTilesHigh() * TILE_SIZE, 3, 0);
+		towerPickerMenu = gameUI.createMenu("TowerPicker", 1280, 80, 3 * TILE_SIZE, grid.getTilesHigh() * TILE_SIZE, 3, 0);
 		// towerPickerMenu.addButton(new Button("CannonBlue", quickLoad("buttonCannonBlue"), 0, 0));
 		// towerPickerMenu.addButton(new Button("CannonRed", quickLoad("buttonCannonRed"), 0, 0));
 		// towerPickerMenu.addButton(new Button("CannonIce", quickLoad("buttonCannonIce"), 0, 0));

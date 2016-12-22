@@ -35,9 +35,9 @@ public class Editor {
 	}
 
 	private void setupUI() {
-		drawQuadTex(quickLoad("menu_background"), 1280, 0, 192, HEIGHT);
+		drawQuadTex(quickLoad("menu_background_tiles"), 1280, 0, 192, HEIGHT);
 		editorUI = new UI();
-		tilePickerMenu = editorUI.createMenu("TilePicker", 1280, 0, 3 * TILE_SIZE, grid.getTilesHigh() * TILE_SIZE, 3, 0);
+		tilePickerMenu = editorUI.createMenu("TilePicker", 1280, 80, 3 * TILE_SIZE, grid.getTilesHigh() * TILE_SIZE, 3, 0);
 		tilePickerMenu.quickAdd("Grass", "grass64");
 		tilePickerMenu.quickAdd("Dirt", "dirt64");
 		tilePickerMenu.quickAdd("Water", "water64");

@@ -59,8 +59,16 @@ public class Enemy implements Entity {
 				}
 			} else {
 				// If not at a checkpoint, continue in current direction
+				float backupX = x;
+				float backupY = y;
 				x += delta() * checkpoints.get(currentCheckpoint).getxDirection() * speed;
 				y += delta() * checkpoints.get(currentCheckpoint).getyDirection() * speed;
+				// If X or Y are outside the grid, restore to previous values
+				if (x <= 0 || x >= grid.getTilesWide() * TILE_SIZE - TILE_SIZE / 2 ||
+					y <= 0 || y >= grid.getTilesHigh() * TILE_SIZE) {
+					x = backupX;
+					y = backupY;
+				}
 			}
 		}
 	}

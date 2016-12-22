@@ -1,8 +1,10 @@
 package helpers;
 
 import data.MainMenu;
+import data.TileGrid;
 import data.Game;
 import data.Editor;
+import static helpers.Leveler.loadMap;
 
 public class StateManager {
 
@@ -15,22 +17,7 @@ public class StateManager {
 	public static Game game;
 	public static Editor editor;
 
-	private static int[][] map = {
-		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 0, 0, 0},
-		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 0, 0, 0},
-		{0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0},
-		{0, 0, 0, 0, 1, 2, 2, 2, 1, 0, 0, 0, 1, 2, 2, 2, 1, 0, 0, 0},
-		{0, 0, 0, 0, 1, 2, 2, 2, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0},
-		{1, 1, 1, 1, 1, 2, 2, 2, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0},
-		{0, 0, 0, 0, 0, 2, 2, 2, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0},
-		{0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 2, 2, 1, 0, 0, 0, 1, 0, 0, 0},
-		{0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 2, 2, 1, 0, 0, 0, 1, 0, 0, 0},
-		{0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 2, 2, 1, 0, 0, 0, 1, 0, 0, 0},
-		{0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1},
-		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-	};
+	private static TileGrid map = loadMap("newMap1");
 
 	public static void update() {
 		switch(gameState) {
