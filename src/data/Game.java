@@ -3,7 +3,9 @@ package data;
 import static helpers.Artist.*;
 
 import org.lwjgl.input.Mouse;
+import org.newdawn.slick.opengl.Texture;
 
+import helpers.StateManager;
 import ui.Button;
 import ui.UI;
 import ui.UI.Menu;
@@ -16,13 +18,14 @@ public class Game {
 	private float test;
 	private UI gameUI;
 	private Menu towerPickerMenu;
+	private Texture menuBackgroundTexture;
 
 	// Temp variables
 	TowerCannon tower;
 
 	public Game(TileGrid grid) {
 		this.grid = grid;
-		Enemy e = new Enemy(quickLoad("UFO64"), grid.getTile(2, 2), grid, TILE_SIZE, TILE_SIZE, 100, 100);
+		Enemy e = new Enemy(quickLoad("enemy_floating_1"), grid.getTile(2, 2), grid, TILE_SIZE, TILE_SIZE, 100, 100);
 		waveManager = new WaveManager(e, 2, 3);
 		player = new Player(grid, waveManager);
 		player.setup();
@@ -30,7 +33,7 @@ public class Game {
 	}
 
 	private void setupUI() {
-		drawQuadTex(quickLoad("menu_background_towers"), 1280, 0, 192, HEIGHT);
+		menuBackgroundTexture = quickLoad("menu_background_towers");
 		gameUI = new UI();
 		towerPickerMenu = gameUI.createMenu("TowerPicker", 1280, 80, 3 * TILE_SIZE, grid.getTilesHigh() * TILE_SIZE, 3, 0);
 		// towerPickerMenu.addButton(new Button("CannonBlue", quickLoad("buttonCannonBlue"), 0, 0));
@@ -42,10 +45,14 @@ public class Game {
 		towerPickerMenu.quickAdd("CannonIce2", "buttonCannonIce");
 		towerPickerMenu.quickAdd("CannonBlue2", "buttonCannonBlue");
 		towerPickerMenu.quickAdd("CannonRed2", "buttonCannonRed");
-		gameUI.draw();
 	}
 
 	private void updateUI() {
+
+		gameUI.draw();
+		gameUI.drawString(1310, 780, "Lives: " + Player.lives);
+		gameUI.drawString(1310, 810, "Cash: " + Player.cash);
+		gameUI.drawString(1310, 840, "FPS: " + StateManager.framesInLastSecond);
 
 		// Handle mouse input
 		if (Mouse.next()) {
@@ -74,6 +81,7 @@ public class Game {
 	}
 
 	public void update() {
+		drawQuadTex(menuBackgroundTexture, 1280, 0, 192, HEIGHT);
 		grid.draw();
 		waveManager.update();
 		player.update();

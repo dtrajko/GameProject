@@ -64,10 +64,12 @@ public class Enemy implements Entity {
 				x += delta() * checkpoints.get(currentCheckpoint).getxDirection() * speed;
 				y += delta() * checkpoints.get(currentCheckpoint).getyDirection() * speed;
 				// If X or Y are outside the grid, restore to previous values
-				if (x <= 0 || x >= grid.getTilesWide() * TILE_SIZE - TILE_SIZE / 2 ||
+				if (x <= 0 || x >= grid.getTilesWide() * TILE_SIZE - TILE_SIZE * 0.75f ||
 					y <= 0 || y >= grid.getTilesHigh() * TILE_SIZE) {
 					x = backupX;
 					y = backupY;
+					System.out.println("Enemy Reached End of Maze");
+					endOfMazeReached();
 				}
 			}
 		}

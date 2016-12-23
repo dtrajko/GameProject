@@ -31,7 +31,7 @@ public class Player {
 
 	// Initialize cash and lives values for Player
 	public void setup() {
-		cash = 200;
+		cash = 150;
 		lives = 10;
 	}
 
@@ -56,10 +56,10 @@ public class Player {
 		if (holdingTower) {
 			float mouseX = getMouseTile().getX();
 			float mouseY = getMouseTile().getY();
-			if (mouseX > 0 && mouseX < this.grid.getTilesWide() * TILE_SIZE) {
+			if (mouseX >= 0 && mouseX < this.grid.getTilesWide() * TILE_SIZE) {
 				tempTower.setX(mouseX);
 			}
-			if (mouseY > 0 && mouseY < this.grid.getTilesHigh() * TILE_SIZE) {
+			if (mouseY >= 0 && mouseY < this.grid.getTilesHigh() * TILE_SIZE) {
 				tempTower.setY(mouseY);
 			}
 			// System.out.println("Player update: mouseX = " + mouseX + ", mouseY = " + mouseY);
