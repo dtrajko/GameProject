@@ -16,6 +16,7 @@ public class Player {
 	private boolean leftMouseButtonDown, rightMouseButtonDown, holdingTower;
 	private Tower tempTower;
 	public static int cash, lives;
+	public boolean keyPressed;
 
 	public Player(TileGrid grid, WaveManager waveManager) {
 		this.grid = grid;
@@ -27,6 +28,7 @@ public class Player {
 		this.tempTower = null;
 		this.cash = 0;
 		this.lives = 0;
+		this.keyPressed = false;
 	}
 
 	// Initialize cash and lives values for Player
@@ -91,11 +93,11 @@ public class Player {
 			if (Keyboard.getEventKey() == Keyboard.KEY_LEFT && Keyboard.getEventKeyState()) {
 				Clock.changeMultiplier(-0.2f);
 			}
-			if ((Keyboard.getEventKey() == Keyboard.KEY_ESCAPE || Keyboard.getEventKey() == Keyboard.KEY_P) &&
-					Keyboard.getEventKeyState()) {
+			if ((Keyboard.getEventKey() == Keyboard.KEY_ESCAPE || Keyboard.getEventKey() == Keyboard.KEY_P) && keyPressed) {
 				Clock.pause();
 				StateManager.setState(GameState.MAINMENU);
 			}
+			keyPressed = Keyboard.getEventKeyState();
 		}
 	}
 

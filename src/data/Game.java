@@ -32,7 +32,7 @@ public class Game {
 		setupUI();
 	}
 
-	private void setupUI() {
+	public void setupUI() {
 		menuBackgroundTexture = quickLoad("menu_background_towers");
 		gameUI = new UI();
 		towerPickerMenu = gameUI.createMenu("TowerPicker", 1280, 80, 3 * TILE_SIZE, grid.getTilesHigh() * TILE_SIZE, 3, 0);
@@ -98,5 +98,9 @@ public class Game {
 
 	public void setTest(float test) {
 		this.test = test;
+	}
+
+	public Player getPlayer() {
+		return player;
 	}
 }

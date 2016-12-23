@@ -15,6 +15,7 @@ public class StateManager {
 	public static GameState gameState = GameState.MAINMENU;
 	public static MainMenu mainMenu;
 	public static Game game;
+	public static Game gameSplash;
 	public static Editor editor;
 
 	public static long nextSecond = System.currentTimeMillis() + 1000;
@@ -26,9 +27,16 @@ public class StateManager {
 	public static void update() {
 		switch(gameState) {
 		case MAINMENU:
-			if (mainMenu == null)
+			if (mainMenu == null) {
 				mainMenu = new MainMenu();
+				gameSplash = new Game(map);
+				gameSplash.update();
+			}
 			mainMenu.update();
+			if (gameSplash != null) {
+				gameSplash = null;
+				System.out.println("gameSplash is NULL!!!!");	
+			}
 			break;
 		case GAME:
 			if (game == null) {
@@ -57,5 +65,11 @@ public class StateManager {
 
 	public static void setState(GameState newState) {
 		gameState = newState;
+		if (newState == GameState.MAINMENU) {
+			mainMenu.redisplaySplashScreen();
+		}
+		if (newState == GameState.GAME) {
+			mainMenu.redisplaySplashScreen();
+		}
 	}
 }

@@ -11,6 +11,7 @@ import ui.UI.Menu;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
+import org.newdawn.slick.opengl.Texture;
 
 public class Editor {
 
@@ -21,6 +22,7 @@ public class Editor {
 	private boolean rightMouseButtonDown;
 	private UI editorUI;
 	private Menu tilePickerMenu;
+	private Texture menuBackgroundTexture;
 
 	public Editor() {
 		this.grid = loadMap("newMap1");
@@ -35,7 +37,7 @@ public class Editor {
 	}
 
 	private void setupUI() {
-		drawQuadTex(quickLoad("menu_background_tiles"), 1280, 0, 192, HEIGHT);
+		menuBackgroundTexture = quickLoad("menu_background_tiles");
 		editorUI = new UI();
 		tilePickerMenu = editorUI.createMenu("TilePicker", 1280, 80, 3 * TILE_SIZE, grid.getTilesHigh() * TILE_SIZE, 3, 0);
 		tilePickerMenu.quickAdd("Grass", "grass64");
@@ -87,6 +89,7 @@ public class Editor {
 	}
 
 	public void draw() {
+		drawQuadTex(menuBackgroundTexture, 1280, 0, 192, HEIGHT);
 		grid.draw();
 		editorUI.draw();
 	}
