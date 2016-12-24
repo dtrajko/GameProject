@@ -18,22 +18,26 @@ public class Game {
 	private float test;
 	private UI gameUI;
 	private Menu towerPickerMenu;
-	private Texture menuBackgroundTexture;
+	private Texture menuBackground;
+	private Enemy[] enemyTypes;
 
 	// Temp variables
 	TowerCannon tower;
 
 	public Game(TileGrid grid) {
 		this.grid = grid;
-		Enemy e = new Enemy(quickLoad("enemy_floating_1"), grid.getTile(2, 2), grid, TILE_SIZE, TILE_SIZE, 100, 100);
-		waveManager = new WaveManager(e, 2, 3);
+		this.menuBackground = quickLoad("menu_background_towers");
+		enemyTypes = new Enemy[3];
+		enemyTypes[0] = new EnemyAlien(2, 2, grid);
+		enemyTypes[1] = new EnemyUFO(2, 2, grid);
+		enemyTypes[2] = new EnemyPlane(2, 2, grid);
+		waveManager = new WaveManager(enemyTypes, 3, 3);
 		player = new Player(grid, waveManager);
 		player.setup();
 		setupUI();
 	}
 
 	public void setupUI() {
-		menuBackgroundTexture = quickLoad("menu_background_towers");
 		gameUI = new UI();
 		towerPickerMenu = gameUI.createMenu("TowerPicker", 1280, 80, 3 * TILE_SIZE, grid.getTilesHigh() * TILE_SIZE, 3, 0);
 		// towerPickerMenu.addButton(new Button("CannonBlue", quickLoad("buttonCannonBlue"), 0, 0));
@@ -50,9 +54,10 @@ public class Game {
 	private void updateUI() {
 
 		gameUI.draw();
-		gameUI.drawString(1310, 780, "Lives: " + Player.lives);
-		gameUI.drawString(1310, 810, "Cash: " + Player.cash);
-		gameUI.drawString(1310, 840, "FPS: " + StateManager.framesInLastSecond);
+		gameUI.drawString(1310, 760, "Lives: " + Player.lives);
+		gameUI.drawString(1310, 790, "Cash: " + Player.cash);
+		gameUI.drawString(1310, 820, "Wave: " + waveManager.getWaveNumber());
+		gameUI.drawString(1310, 850, "FPS: " + StateManager.framesInLastSecond);
 
 		// Handle mouse input
 		if (Mouse.next()) {
@@ -81,7 +86,7 @@ public class Game {
 	}
 
 	public void update() {
-		drawQuadTex(menuBackgroundTexture, 1280, 0, 192, HEIGHT);
+		drawQuadTex(menuBackground, 1280, 0, 192, HEIGHT);
 		grid.draw();
 		waveManager.update();
 		player.update();

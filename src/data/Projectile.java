@@ -13,7 +13,7 @@ public abstract class Projectile implements Entity {
 	private int width, height, damage;
 	private ProjectileType type;
 	private Enemy target;
-	private boolean alive;
+	protected boolean alive;
 
 	public Projectile(ProjectileType type, Enemy target, float x, float y, int width, int height) {
 		this.texture = type.texture; 

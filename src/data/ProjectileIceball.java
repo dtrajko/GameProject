@@ -18,7 +18,9 @@ public class ProjectileIceball extends Projectile {
 
 	@Override
 	public void update() {
-		calculateDirection();
+		if (alive) {
+			calculateDirection();			
+		}
 		super.update();
 	}
 }

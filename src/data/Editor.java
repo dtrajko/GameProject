@@ -22,7 +22,7 @@ public class Editor {
 	private boolean rightMouseButtonDown;
 	private UI editorUI;
 	private Menu tilePickerMenu;
-	private Texture menuBackgroundTexture;
+	private Texture menuBackground;
 
 	public Editor() {
 		this.grid = loadMap("newMap1");
@@ -31,13 +31,13 @@ public class Editor {
 		this.types[0] = TileType.Grass;
 		this.types[1] = TileType.Dirt;
 		this.types[2] = TileType.Water;
+		this.menuBackground = quickLoad("menu_background_tiles");
 		this.leftMouseButtonDown = false;
 		this.rightMouseButtonDown = false;
 		setupUI();
 	}
 
 	private void setupUI() {
-		menuBackgroundTexture = quickLoad("menu_background_tiles");
 		editorUI = new UI();
 		tilePickerMenu = editorUI.createMenu("TilePicker", 1280, 80, 3 * TILE_SIZE, grid.getTilesHigh() * TILE_SIZE, 3, 0);
 		tilePickerMenu.quickAdd("Grass", "grass64");
@@ -89,7 +89,7 @@ public class Editor {
 	}
 
 	public void draw() {
-		drawQuadTex(menuBackgroundTexture, 1280, 0, 192, HEIGHT);
+		drawQuadTex(menuBackground, 1280, 0, 192, HEIGHT);
 		grid.draw();
 		editorUI.draw();
 	}
