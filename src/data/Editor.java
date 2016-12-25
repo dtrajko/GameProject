@@ -23,6 +23,7 @@ public class Editor {
 	private UI editorUI;
 	private Menu tilePickerMenu;
 	private Texture menuBackground;
+	private boolean tileTypeSelected;
 
 	public Editor() {
 		this.grid = loadMap("newMap1");
@@ -45,25 +46,33 @@ public class Editor {
 		tilePickerMenu.quickAdd("Water", "water64");
 	}
 
-	public void update() {
+	public void unselectTileType() {
+		tileTypeSelected = false;
+	}
 
+	public void update() {
 		// Handle Mouse Input
 		if (Mouse.next()) {
 			boolean mouseClicked = Mouse.isButtonDown(0);
 			if (mouseClicked) {
 				if (tilePickerMenu.isButtonClicked("Grass")) {
 					index = 0;
+					tileTypeSelected = true;
 					System.out.println("Grass button clicked!");
 				} else if (tilePickerMenu.isButtonClicked("Dirt")) {
 					index = 1;
+					tileTypeSelected = true;
 					System.out.println("Dirt button clicked!");
 				} else if (tilePickerMenu.isButtonClicked("Water")) {
 					index = 2;
+					tileTypeSelected = true;
 					System.out.println("Water button clicked!");
 				} else {					
 					if (Mouse.getX() > 0 && Mouse.getX() < this.grid.getTilesWide() * TILE_SIZE &&
 						Mouse.getY() > 0 && Mouse.getY() < this.grid.getTilesHigh() * TILE_SIZE) {
-						setTile();
+						if (tileTypeSelected) {
+							setTile();							
+						}
 					}
 				}
 			}
@@ -79,8 +88,8 @@ public class Editor {
 				saveMap("newMap1", grid);
 			}
 
-			if ((Keyboard.getEventKey() == Keyboard.KEY_ESCAPE || Keyboard.getEventKey() == Keyboard.KEY_P) &&
-					Keyboard.getEventKeyState()) {
+			if ((Keyboard.getEventKey() == Keyboard.KEY_ESCAPE) && Keyboard.getEventKeyState()) {
+				saveMap("newMap1", grid);
 				Clock.pause();
 				StateManager.setState(GameState.MAINMENU);
 			}
@@ -96,7 +105,7 @@ public class Editor {
 
 	public void setTile() {
 		grid.setTile((int) Math.floor(Mouse.getX() / TILE_SIZE), 
-			(int) Math.floor((Artist.HEIGHT - Mouse.getY() - 1) / TILE_SIZE), types[index]);
+				(int) Math.floor((Artist.HEIGHT - Mouse.getY() - 1) / TILE_SIZE), types[index]);			
 	}
 
 	// Allows editor to change which TileType is selected

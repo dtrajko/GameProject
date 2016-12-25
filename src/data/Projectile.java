@@ -68,7 +68,7 @@ public abstract class Projectile implements Entity {
 			if (alive) {
 				if (target != null) {
 					if (checkCollision(x, y, texture.getWidth(), texture.getHeight(), target.getX(), target.getY(), target.getWidth(), target.getHeight())) {
-						System.out.println("Projectile " + this.type.name() + " hit its target.");
+						// System.out.println("Projectile " + this.type.name() + " hit its target.");
 						damage();
 					}				
 				}

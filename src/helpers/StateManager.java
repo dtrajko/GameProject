@@ -47,7 +47,8 @@ public class StateManager {
 			if (game.gameResumed) {
 				System.out.println("Game resumed");
 				mapRawUpdate = loadMapRaw("newMap1");
-				if (mapRawUpdate != mapRaw) {
+				if (!mapRawUpdate.equals(mapRaw)) {
+					System.out.println("Map change detected. Loading the new map.");
 					map = loadMap("newMap1");
 					game = new Game(map);
 				}
@@ -82,6 +83,11 @@ public class StateManager {
 		if (newState == GameState.GAME) {
 			game.gameResumed = true;
 			mainMenu.redisplaySplashScreen();
+		}
+		if (newState == GameState.EDITOR) {
+			if (editor != null) {
+				editor.unselectTileType();				
+			}
 		}
 	}
 }
