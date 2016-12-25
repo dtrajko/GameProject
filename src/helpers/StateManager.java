@@ -4,7 +4,7 @@ import data.MainMenu;
 import data.TileGrid;
 import data.Game;
 import data.Editor;
-import static helpers.Leveler.loadMap;
+import static helpers.Leveler.*;
 
 public class StateManager {
 
@@ -23,6 +23,8 @@ public class StateManager {
 	public static int framesInCurrentSecond = 0;
 
 	private static TileGrid map = loadMap("newMap1");
+	private static String mapRaw = loadMapRaw("newMap1");
+	private static String mapRawUpdate;
 
 	public static void update() {
 		switch(gameState) {
@@ -42,7 +44,16 @@ public class StateManager {
 			if (game == null) {
 				game = new Game(map);
 			}
+			if (game.gameResumed) {
+				System.out.println("Game resumed");
+				mapRawUpdate = loadMapRaw("newMap1");
+				if (mapRawUpdate != mapRaw) {
+					map = loadMap("newMap1");
+					game = new Game(map);
+				}
+			}
 			Clock.pause();
+			game.gameResumed = false;
 			game.update();
 			break;
 		case EDITOR:
@@ -69,6 +80,7 @@ public class StateManager {
 			mainMenu.redisplaySplashScreen();
 		}
 		if (newState == GameState.GAME) {
+			game.gameResumed = true;
 			mainMenu.redisplaySplashScreen();
 		}
 	}

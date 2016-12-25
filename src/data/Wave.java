@@ -50,10 +50,32 @@ public class Wave {
 		Random random = new Random();
 		// int enemyChosen = ThreadLocalRandom.current().nextInt(0, enemyTypes.length);
 		int enemyChosen = random.nextInt(enemyTypes.length);
+		switch (enemyChosen) {
+		case Game.ENEMY_ALIEN_1:
+		case Game.ENEMY_ALIEN_2:
+		case Game.ENEMY_ALIEN_3:
+			enemyList.add(new EnemyAlien(enemyTypes[enemyChosen].getStartTile().getXPlace(), 
+					                     enemyTypes[enemyChosen].getStartTile().getXPlace(),
+					                     enemyTypes[enemyChosen].getTileGrid()));
+			break;
+		case Game.ENEMY_TANK_1:
+		case Game.ENEMY_TANK_2:
+		case Game.ENEMY_TANK_3:
+			enemyList.add(new EnemyTank(enemyTypes[enemyChosen].getStartTile().getXPlace(), 
+                    enemyTypes[enemyChosen].getStartTile().getXPlace(),
+                    enemyTypes[enemyChosen].getTileGrid()));
+			break;
+		case Game.ENEMY_UFO:
+			enemyList.add(new EnemyUFO(enemyTypes[Game.ENEMY_UFO].getStartTile().getXPlace(), 
+                    enemyTypes[Game.ENEMY_UFO].getStartTile().getXPlace(),
+                    enemyTypes[Game.ENEMY_UFO].getTileGrid()));
+			break;
+		default:
+			enemyList.add(new Enemy(enemyTypes[enemyChosen].getTexture(), enemyTypes[enemyChosen].getStartTile(),
+					enemyTypes[enemyChosen].getTileGrid(), TILE_SIZE, TILE_SIZE, 
+					enemyTypes[enemyChosen].getSpeed(), enemyTypes[enemyChosen].getHealth()));
+		}
 		System.out.println("enemiesSpawned = " + enemiesSpawned + ", enemyChosen = " + enemyChosen);
-		enemyList.add(new Enemy(enemyTypes[enemyChosen].getTexture(), enemyTypes[enemyChosen].getStartTile(),
-			enemyTypes[enemyChosen].getTileGrid(), TILE_SIZE, TILE_SIZE, 
-			enemyTypes[enemyChosen].getSpeed(), enemyTypes[enemyChosen].getHealth()));
 		enemiesSpawned++;
 	}
 

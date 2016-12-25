@@ -48,6 +48,19 @@ public class Leveler {
 		return grid;
 	}
 
+	public static String loadMapRaw(String mapName) {
+		String data = "";
+		try {
+			BufferedReader br;
+			br = new BufferedReader(new FileReader(mapName));
+			data = br.readLine();
+			br.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return data;
+	}
+
 	public static TileType getTileType(String ID) {
 		TileType type = TileType.NULL;
 		switch (ID) {

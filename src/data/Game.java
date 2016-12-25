@@ -20,6 +20,14 @@ public class Game {
 	private Menu towerPickerMenu;
 	private Texture menuBackground;
 	private Enemy[] enemyTypes;
+	public static final int ENEMY_ALIEN_1 = 0;
+	public static final int ENEMY_ALIEN_2 = 1;
+	public static final int ENEMY_ALIEN_3 = 2;
+	public static final int ENEMY_TANK_1 = 3;
+	public static final int ENEMY_TANK_2 = 4;
+	public static final int ENEMY_TANK_3 = 5;
+	public static final int ENEMY_UFO = 6;
+	public static boolean gameResumed = false;
 
 	// Temp variables
 	TowerCannon tower;
@@ -27,11 +35,15 @@ public class Game {
 	public Game(TileGrid grid) {
 		this.grid = grid;
 		this.menuBackground = quickLoad("menu_background_towers");
-		enemyTypes = new Enemy[3];
-		enemyTypes[0] = new EnemyAlien(2, 2, grid);
-		enemyTypes[1] = new EnemyUFO(2, 2, grid);
-		enemyTypes[2] = new EnemyPlane(2, 2, grid);
-		waveManager = new WaveManager(enemyTypes, 3, 3);
+		enemyTypes = new Enemy[7];
+		enemyTypes[ENEMY_ALIEN_1] = new EnemyAlien(2, 2, grid);
+		enemyTypes[ENEMY_ALIEN_2] = new EnemyAlien(2, 2, grid);
+		enemyTypes[ENEMY_ALIEN_3] = new EnemyAlien(2, 2, grid);
+		enemyTypes[ENEMY_TANK_1] = new EnemyTank(2, 2, grid);
+		enemyTypes[ENEMY_TANK_2] = new EnemyTank(2, 2, grid);
+		enemyTypes[ENEMY_TANK_3] = new EnemyTank(2, 2, grid);
+		enemyTypes[ENEMY_UFO] = new EnemyUFO(2, 2, grid);
+		waveManager = new WaveManager(enemyTypes, 2, 4);
 		player = new Player(grid, waveManager);
 		player.setup();
 		setupUI();

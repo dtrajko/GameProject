@@ -99,7 +99,7 @@ public class Artist {
 	}
 
 	public static Texture quickLoad(String name) {
-		System.out.println("QuickLoad texture " + name);
+		// System.out.println("QuickLoad texture " + name);
 		Texture tex = null;
 		tex = loadTexture("res/" + name + ".png", "PNG");
 		return tex;

@@ -321,4 +321,13 @@ public class Enemy implements Entity {
 	public boolean isAlive() {
 		return alive;
 	}
+
+	public int[] getDirections() {
+		return directions;
+	}
+
+	public Checkpoint getCurrentCheckpoint() {
+		return checkpoints.get(currentCheckpoint);
+	}
 }
+
