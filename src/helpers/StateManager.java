@@ -23,8 +23,8 @@ public class StateManager {
 	public static int framesInCurrentSecond = 0;
 
 	private static TileGrid map = loadMap("newMap1");
-	private static String mapRaw = loadMapRaw("newMap1");
-	private static String mapRawUpdate;
+	private static String mapData = loadMapData("newMap1");
+	private static String mapDataUpdate;
 
 	public static void update() {
 		switch(gameState) {
@@ -46,10 +46,11 @@ public class StateManager {
 			}
 			if (game.gameResumed) {
 				System.out.println("Game resumed");
-				mapRawUpdate = loadMapRaw("newMap1");
-				if (!mapRawUpdate.equals(mapRaw)) {
+				mapDataUpdate = loadMapData("newMap1");
+				if (!mapDataUpdate.equals(mapData)) {
 					System.out.println("Map change detected. Loading the new map.");
-					map = loadMap("newMap1");
+					mapData = loadMapData("newMap1");
+					map = loadMapFromData(mapData);
 					game = new Game(map);
 				}
 			}
@@ -89,5 +90,9 @@ public class StateManager {
 				editor.unselectTileType();				
 			}
 		}
+	}
+
+	public static String getMapData() {
+		return mapData;
 	}
 }

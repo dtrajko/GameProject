@@ -2,9 +2,15 @@ package data;
 
 import static helpers.Artist.*;
 
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.image.BufferStrategy;
+import java.awt.image.BufferedImage;
+
 import org.lwjgl.input.Mouse;
 import org.newdawn.slick.opengl.Texture;
 
+import helpers.Artist;
 import helpers.StateManager;
 import ui.Button;
 import ui.UI;
@@ -28,6 +34,9 @@ public class Game {
 	public static final int ENEMY_TANK_3 = 5;
 	public static final int ENEMY_UFO = 6;
 	public static boolean gameResumed = false;
+	private Texture minimap;
+	private static final int MINIMAP_WIDTH = 160;
+	private static final int MINIMAP_HEIGHT = 128;
 
 	// Temp variables
 	TowerCannon tower;
@@ -47,14 +56,12 @@ public class Game {
 		player = new Player(grid, waveManager);
 		player.setup();
 		setupUI();
+		loadMinimap();
 	}
 
 	public void setupUI() {
 		gameUI = new UI();
 		towerPickerMenu = gameUI.createMenu("TowerPicker", 1280, 80, 3 * TILE_SIZE, grid.getTilesHigh() * TILE_SIZE, 3, 0);
-		// towerPickerMenu.addButton(new Button("CannonBlue", quickLoad("buttonCannonBlue"), 0, 0));
-		// towerPickerMenu.addButton(new Button("CannonRed", quickLoad("buttonCannonRed"), 0, 0));
-		// towerPickerMenu.addButton(new Button("CannonIce", quickLoad("buttonCannonIce"), 0, 0));
 		towerPickerMenu.quickAdd("CannonBlue", "buttonCannonBlue");
 		towerPickerMenu.quickAdd("CannonRed", "buttonCannonRed");
 		towerPickerMenu.quickAdd("CannonIce", "buttonCannonIce");
@@ -64,12 +71,13 @@ public class Game {
 	}
 
 	private void updateUI() {
-
 		gameUI.draw();
 		gameUI.drawString(1310, 760, "Lives: " + Player.lives);
 		gameUI.drawString(1310, 790, "Cash: " + Player.cash);
 		gameUI.drawString(1310, 820, "Wave: " + waveManager.getWaveNumber());
 		gameUI.drawString(1310, 850, "FPS: " + StateManager.framesInLastSecond);
+
+		drawQuadTex(minimap, 1296, 250, MINIMAP_WIDTH, MINIMAP_HEIGHT);
 
 		// Handle mouse input
 		if (Mouse.next()) {
@@ -103,6 +111,12 @@ public class Game {
 		waveManager.update();
 		player.update();
 		updateUI();
+	}
+
+	public void loadMinimap() {
+		Map map = new Map(StateManager.getMapData(), grid.getTilesWide(), grid.getTilesHigh());
+		// minimapBuffImg = map.createMiniMapBuffImg();
+		minimap = map.createMiniMap();
 	}
 
 	public static WaveManager getWaveManager() {

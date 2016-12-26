@@ -30,25 +30,30 @@ public class Leveler {
 		}
 	}
 
+	// load map directly from file
 	public static TileGrid loadMap(String mapName) {
 		TileGrid grid = new TileGrid();
-		try {
-			BufferedReader br;
-			br = new BufferedReader(new FileReader(mapName));
-			String data = br.readLine();
-			for (int i = 0; i < grid.getTilesWide(); i++) {
-				for (int j = 0; j < grid.getTilesHigh(); j++) {
-					grid.setTile(i, j, getTileType(data.substring(i * grid.getTilesHigh() + j, i * grid.getTilesHigh() + j + 1)));
-				}
+		String data = loadMapData(mapName);
+		for (int i = 0; i < grid.getTilesWide(); i++) {
+			for (int j = 0; j < grid.getTilesHigh(); j++) {
+				grid.setTile(i, j, getTileType(data.substring(i * grid.getTilesHigh() + j, i * grid.getTilesHigh() + j + 1)));
 			}
-			br.close();
-		} catch (IOException e) {
-			e.printStackTrace();
 		}
 		return grid;
 	}
 
-	public static String loadMapRaw(String mapName) {
+	// load map from the previously loaded raw map data
+	public static TileGrid loadMapFromData(String mapData) {
+		TileGrid grid = new TileGrid();
+		for (int i = 0; i < grid.getTilesWide(); i++) {
+			for (int j = 0; j < grid.getTilesHigh(); j++) {
+				grid.setTile(i, j, getTileType(mapData.substring(i * grid.getTilesHigh() + j, i * grid.getTilesHigh() + j + 1)));
+			}
+		}
+		return grid;
+	}
+
+	public static String loadMapData(String mapName) {
 		String data = "";
 		try {
 			BufferedReader br;
