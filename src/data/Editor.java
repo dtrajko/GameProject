@@ -24,9 +24,11 @@ public class Editor {
 	private Menu tilePickerMenu;
 	private Texture menuBackground;
 	private boolean tileTypeSelected;
+	private String mapFileName;
 
-	public Editor() {
-		this.grid = loadMap("newMap1");
+	public Editor(String mapFileName) {
+		this.mapFileName = mapFileName;
+		this.grid = loadMap(mapFileName);
 		this.index = 0;
 		this.types= new TileType[3];
 		this.types[0] = TileType.Grass;
@@ -36,6 +38,12 @@ public class Editor {
 		this.leftMouseButtonDown = false;
 		this.rightMouseButtonDown = false;
 		setupUI();
+	}
+
+	public void setMap(String mapFileName) {
+		System.out.println("Editor set map to " + mapFileName);
+		this.mapFileName = mapFileName;
+		this.grid = loadMap(mapFileName);
 	}
 
 	private void setupUI() {
@@ -51,6 +59,7 @@ public class Editor {
 	}
 
 	public void update() {
+
 		// Handle Mouse Input
 		if (Mouse.next()) {
 			boolean mouseClicked = Mouse.isButtonDown(0);
@@ -85,12 +94,13 @@ public class Editor {
 			}
 
 			if (Keyboard.getEventKey() == Keyboard.KEY_S && Keyboard.getEventKeyState()) {
-				saveMap("newMap1", grid);
+				saveMap(mapFileName, grid);
 			}
 
 			if ((Keyboard.getEventKey() == Keyboard.KEY_ESCAPE) && Keyboard.getEventKeyState()) {
-				saveMap("newMap1", grid);
+				saveMap(mapFileName, grid);
 				Clock.pause();
+				StateManager.reloadMinimaps();
 				StateManager.setState(GameState.MAINMENU);
 			}
 		}

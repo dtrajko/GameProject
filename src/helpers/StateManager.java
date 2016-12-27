@@ -22,17 +22,31 @@ public class StateManager {
 	public static int framesInLastSecond = 0;
 	public static int framesInCurrentSecond = 0;
 
-	private static TileGrid map = loadMap("newMap1");
-	private static String mapData = loadMapData("newMap1");
+	private static String mapFileName;
+	private static String mapData;
+	private static TileGrid map;
 	private static String mapDataUpdate;
+	private static boolean levelChanged = false;
+	private static boolean reloadMinimaps = false;
+
+	public static void initMap(String mapFile) {
+		mapFileName = mapFile;
+		mapData = loadMapData(mapFileName);
+		map = loadMapFromData(mapData);
+		System.out.println("initMap " + mapFile);
+	}
 
 	public static void update() {
+		if (map == null) {
+			initMap("newMap1");
+		}
 		switch(gameState) {
 		case MAINMENU:
-			if (mainMenu == null) {
+			if (mainMenu == null || reloadMinimaps) {
 				mainMenu = new MainMenu();
 				gameSplash = new Game(map);
 				gameSplash.update();
+				reloadMinimaps = false;
 			}
 			mainMenu.update();
 			if (gameSplash != null) {
@@ -46,12 +60,12 @@ public class StateManager {
 			}
 			if (game.gameResumed) {
 				System.out.println("Game resumed");
-				mapDataUpdate = loadMapData("newMap1");
-				if (!mapDataUpdate.equals(mapData)) {
-					System.out.println("Map change detected. Loading the new map.");
-					mapData = loadMapData("newMap1");
-					map = loadMapFromData(mapData);
+				mapDataUpdate = loadMapData(mapFileName);
+				if (!mapDataUpdate.equals(mapData) || levelChanged) {
+					System.out.println("Map or Level change detected. Loading the new map.");
+					initMap(mapFileName);
 					game = new Game(map);
+					levelChanged = false;
 				}
 			}
 			Clock.pause();
@@ -60,7 +74,11 @@ public class StateManager {
 			break;
 		case EDITOR:
 			if (editor == null)
-				editor = new Editor();
+				editor = new Editor(mapFileName);
+			if (levelChanged) {
+				editor.setMap(mapFileName);
+				levelChanged = false;
+			}
 			editor.update();
 			break;
 		}
@@ -82,17 +100,27 @@ public class StateManager {
 			mainMenu.redisplaySplashScreen();
 		}
 		if (newState == GameState.GAME) {
-			game.gameResumed = true;
+			Game.gameResumed = true;
 			mainMenu.redisplaySplashScreen();
 		}
 		if (newState == GameState.EDITOR) {
 			if (editor != null) {
 				editor.unselectTileType();				
 			}
+			levelChanged = true;
 		}
 	}
 
 	public static String getMapData() {
 		return mapData;
+	}
+
+	public static void setMap(String mapFileName) {
+		levelChanged = true;
+		initMap(mapFileName);
+	}
+
+	public static void reloadMinimaps() {
+		reloadMinimaps = true;
 	}
 }

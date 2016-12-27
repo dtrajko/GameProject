@@ -6,19 +6,23 @@ import java.util.ArrayList;
 import org.lwjgl.input.Mouse;
 import org.newdawn.slick.TrueTypeFont;
 
+import data.Map;
+
 import static helpers.Artist.*;
 
 public class UI {
 	
 	private ArrayList<Button> buttonList;
 	private ArrayList<Menu> menuList;
-
+	private ArrayList<Map> mapList;
+	
 	private TrueTypeFont font;
 	private Font awtFont;
 
 	public UI() {
 		buttonList = new ArrayList<Button>();
 		menuList = new ArrayList<Menu>();
+		mapList = new ArrayList<Map>();
 		awtFont = new Font(Font.SERIF, Font.BOLD, 18);
 		font = new TrueTypeFont(awtFont, false);
 	}
@@ -29,6 +33,10 @@ public class UI {
 
 	public void addButton(String name, String textureName, int x, int y) {
 		buttonList.add(new Button(name, quickLoad(textureName), x, y));
+	}
+
+	public void addMinimap(String name, String mapFileName, int x, int y, int width, int height) {
+		mapList.add(new Map(name, mapFileName, x, y, width, height));
 	}
 
 	public boolean isButtonClicked(String buttonName) {
@@ -45,6 +53,25 @@ public class UI {
 		for (Button b: buttonList) {
 			if (b.getName().equals(buttonName)) {
 				return b;
+			}
+		}
+		return null;
+	}
+
+	public boolean isMinimapClicked(String minimapName) {
+		Map map = getMinimap(minimapName);
+		float mouseY = HEIGHT - Mouse.getY() - 1;
+		if (Mouse.getX() > map.getX() && Mouse.getX() < map.getX() + map.getWidth() &&
+		mouseY > map.getY() && mouseY < map.getY() + map.getHeight()) {
+			return true;
+		}
+		return false;
+	}
+
+	private Map getMinimap(String minimapName) {
+		for (Map map: mapList) {
+			if (map.getName().equals(minimapName)) {
+				return map;
 			}
 		}
 		return null;
@@ -67,6 +94,9 @@ public class UI {
 	public void draw() {
 		for (Button b: buttonList) {
 			drawQuadTex(b.getTexture(), b.getX(), b.getY(), b.getWidth(), b.getHeight());
+		}
+		for (Map map: mapList) {
+			map.draw();
 		}
 		for (Menu m: menuList) {
 			m.draw();
