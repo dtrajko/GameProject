@@ -99,7 +99,7 @@ public class Editor {
 
 			if ((Keyboard.getEventKey() == Keyboard.KEY_ESCAPE) && Keyboard.getEventKeyState()) {
 				saveMap(mapFileName, grid);
-				Clock.pause();
+				// Clock.pause();
 				StateManager.reloadMinimaps();
 				StateManager.setState(GameState.MAINMENU);
 			}

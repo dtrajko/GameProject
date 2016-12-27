@@ -57,6 +57,20 @@ public class Game {
 		player.setup();
 		setupUI();
 		loadMinimap();
+		System.out.println("Game object initiated.");
+	}
+
+	public Game(TileGrid grid, boolean gameSplash) {
+		this.grid = grid;
+		this.menuBackground = quickLoad("menu_background_towers");
+		enemyTypes = new Enemy[1];
+		enemyTypes[0] = new EnemyUFO(2, 2, grid);
+		waveManager = new WaveManager(enemyTypes, 1, 1);
+		player = new Player(grid, waveManager);
+		player.setup();
+		setupUI();
+		loadMinimap();
+		System.out.println("Game splash object initiated.");
 	}
 
 	public void setupUI() {

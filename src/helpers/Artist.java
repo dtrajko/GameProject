@@ -2,6 +2,7 @@ package helpers;
 
 import static org.lwjgl.opengl.GL11.*;
 
+import java.awt.Color;
 import java.io.IOException;
 import java.io.InputStream;
 import org.lwjgl.LWJGLException;
@@ -50,6 +51,17 @@ public class Artist {
 		glVertex2f(x + width, y + height); // Bottom right corner
 		glVertex2f(x, y + height); // Bottom left corner
 		glEnd();
+	}
+
+	public static void drawQuadColor(float x, float y, float width, float height, Color color) {
+		glColor4f(color.getRed(),color.getGreen(), color.getBlue(), color.getAlpha());
+		glBegin(GL_QUADS);
+		glVertex2f(x, y); // Top left corner
+		glVertex2f(x + width, y); // Top right corner
+		glVertex2f(x + width, y + height); // Bottom right corner
+		glVertex2f(x, y + height); // Bottom left corner
+		glEnd();
+		glColor4f(1f, 1f, 1f, 1f); // set the color back to white
 	}
 
 	public static void drawQuadTex(Texture tex, float x, float y, float width, float height) {

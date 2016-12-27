@@ -24,11 +24,11 @@ public class MainMenu {
 		background = quickLoad("mainmenu_transparent");
 		menuUI = new UI();
 
-		menuUI.addMinimap("Level_1", "newMap1", WIDTH / 2 - 128 - 32 - 256 - 32 - 256, (int) (HEIGHT * 0.38f), MINIMAP_WIDTH, MINIMAP_HEIGHT);
-		menuUI.addMinimap("Level_2", "newMap2", WIDTH / 2 - 128 - 32 - 256,            (int) (HEIGHT * 0.38f), MINIMAP_WIDTH, MINIMAP_HEIGHT);
-		menuUI.addMinimap("Level_3", "newMap3", WIDTH / 2 - 128,                       (int) (HEIGHT * 0.38f), MINIMAP_WIDTH, MINIMAP_HEIGHT);
-		menuUI.addMinimap("Level_4", "newMap4", WIDTH / 2 - 128 + 32 + 256,            (int) (HEIGHT * 0.38f), MINIMAP_WIDTH, MINIMAP_HEIGHT);
-		menuUI.addMinimap("Level_5", "newMap5", WIDTH / 2 - 128 + 32 + 256 + 32 + 256, (int) (HEIGHT * 0.38f), MINIMAP_WIDTH, MINIMAP_HEIGHT);
+		menuUI.addMinimap("Level 1", "newMap1", WIDTH / 2 - 128 - 32 - 256 - 32 - 256, (int) (HEIGHT * 0.38f), MINIMAP_WIDTH, MINIMAP_HEIGHT);
+		menuUI.addMinimap("Level 2", "newMap2", WIDTH / 2 - 128 - 32 - 256,            (int) (HEIGHT * 0.38f), MINIMAP_WIDTH, MINIMAP_HEIGHT);
+		menuUI.addMinimap("Level 3", "newMap3", WIDTH / 2 - 128,                       (int) (HEIGHT * 0.38f), MINIMAP_WIDTH, MINIMAP_HEIGHT);
+		menuUI.addMinimap("Level 4", "newMap4", WIDTH / 2 - 128 + 32 + 256,            (int) (HEIGHT * 0.38f), MINIMAP_WIDTH, MINIMAP_HEIGHT);
+		menuUI.addMinimap("Level 5", "newMap5", WIDTH / 2 - 128 + 32 + 256 + 32 + 256, (int) (HEIGHT * 0.38f), MINIMAP_WIDTH, MINIMAP_HEIGHT);
 
 		menuUI.addButton("Play", "playButton", WIDTH / 2 - 128 - 256 - 128, (int) (HEIGHT * 0.8f));
 		menuUI.addButton("Editor", "editorButton", WIDTH / 2 - 128, (int) (HEIGHT * 0.8f));
@@ -42,28 +42,28 @@ public class MainMenu {
 	private void updateButtons() {
 		if (Mouse.isButtonDown(0) && !leftMouseButtonDown) {
 
-			if (menuUI.isMinimapClicked("Level_1")) {
-				System.out.println("Level_1 minimap clicked.");
+			if (menuUI.isMinimapClicked("Level 1")) {
+				System.out.println("Level 1 minimap clicked.");
 				StateManager.setMap("newMap1");
 				StateManager.setState(GameState.GAME);
 			}
-			if (menuUI.isMinimapClicked("Level_2")) {
-				System.out.println("Level_2 minimap clicked.");
+			if (menuUI.isMinimapClicked("Level 2")) {
+				System.out.println("Level 2 minimap clicked.");
 				StateManager.setMap("newMap2");
 				StateManager.setState(GameState.GAME);
 			}
-			if (menuUI.isMinimapClicked("Level_3")) {
-				System.out.println("Level_3 minimap clicked.");
+			if (menuUI.isMinimapClicked("Level 3")) {
+				System.out.println("Level 3 minimap clicked.");
 				StateManager.setMap("newMap3");
 				StateManager.setState(GameState.GAME);
 			}
-			if (menuUI.isMinimapClicked("Level_4")) {
-				System.out.println("Level_4 minimap clicked.");
+			if (menuUI.isMinimapClicked("Level 4")) {
+				System.out.println("Level 4 minimap clicked.");
 				StateManager.setMap("newMap4");
 				StateManager.setState(GameState.GAME);
 			}
-			if (menuUI.isMinimapClicked("Level_5")) {
-				System.out.println("Level_5 minimap clicked.");
+			if (menuUI.isMinimapClicked("Level 5")) {
+				System.out.println("Level 5 minimap clicked.");
 				StateManager.setMap("newMap5");
 				StateManager.setState(GameState.GAME);
 			}
@@ -91,6 +91,18 @@ public class MainMenu {
 				Clock.pause();
 				StateManager.setState(GameState.GAME);
 			}
+			if (Keyboard.getEventKey() == Keyboard.KEY_RIGHT && keyPressed) {
+				StateManager.switchCurrentMap("right");
+				menuUI.setNeedRefresh(true);
+			}
+			if (Keyboard.getEventKey() == Keyboard.KEY_LEFT && keyPressed) {
+				StateManager.switchCurrentMap("left");
+				menuUI.setNeedRefresh(true);
+			}
+			if (Keyboard.getEventKey() == Keyboard.KEY_RETURN && keyPressed) {
+				Clock.pause();
+				StateManager.setState(GameState.GAME);
+			}
 			keyPressed = Keyboard.getEventKeyState();
 		}
 	}
@@ -100,12 +112,22 @@ public class MainMenu {
 			drawQuadTex(background, 0, 0, 2048, 1024);
 			menuBackgroundDisplayed = true;
 		}
-		menuUI.draw();
+		if (menuUI.getNeedRefresh()) {
+			menuUI.draw();
+			menuUI.setNeedRefresh(false);
+		}
 		updateButtons();
 		updateKeyboard();
 	}
 
+	public void draw() {
+	}
+
 	public void redisplaySplashScreen() {
 		menuBackgroundDisplayed = false;
+	}
+
+	public UI getMenuUI() {
+		return menuUI;
 	}
 }

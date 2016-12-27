@@ -94,7 +94,7 @@ public class Player {
 				Clock.changeMultiplier(-0.2f);
 			}
 			if ((Keyboard.getEventKey() == Keyboard.KEY_ESCAPE || Keyboard.getEventKey() == Keyboard.KEY_P) && keyPressed) {
-				Clock.pause();
+				Clock.pause();			
 				StateManager.setState(GameState.MAINMENU);
 			}
 			keyPressed = Keyboard.getEventKeyState();

@@ -16,9 +16,12 @@ public class UI {
 	private ArrayList<Menu> menuList;
 	private ArrayList<Map> mapList;
 	
-	private TrueTypeFont font;
+	private static TrueTypeFont font;
 	private Font awtFont;
 
+	private boolean needRefresh = true;
+
+	
 	public UI() {
 		buttonList = new ArrayList<Button>();
 		menuList = new ArrayList<Menu>();
@@ -27,7 +30,7 @@ public class UI {
 		font = new TrueTypeFont(awtFont, false);
 	}
 
-	public void drawString(int x, int y, String text) {
+	public static void drawString(int x, int y, String text) {
 		font.drawString(x, y, text);
 	}
 
@@ -101,6 +104,14 @@ public class UI {
 		for (Menu m: menuList) {
 			m.draw();
 		}
+	}
+
+	public void setNeedRefresh(boolean needRefresh) {
+		this.needRefresh = needRefresh;
+	}
+
+	public boolean getNeedRefresh() {
+		return needRefresh;
 	}
 
 	public class Menu {

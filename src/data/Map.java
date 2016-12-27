@@ -1,10 +1,15 @@
 package data;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.util.BufferedImageUtil;
+
+import helpers.StateManager;
+import ui.UI;
+
 import static helpers.Artist.*;
 import static helpers.Leveler.*;
 
@@ -14,12 +19,13 @@ public class Map {
 	private TileGrid grid;
 	private int[] pixels;
 	private String name;
-	private String mapDataFilename;
+	private String mapFileName;
 	private String mapData;
 	private Texture texture;
 	private static final int LWJGL_TEXTURE_SIZE = 256; // safe results are with X * 32 texture dimensions
-	private int outline = 2; // in pixels
+	private int outline = 4; // in pixels
 	private Texture minimap_outline;
+	private Texture minimap_outline_selected;
 
 	public Map(String mapData, int tilesWidth, int tilesHeight) {
 		this.mapData = mapData;
@@ -30,24 +36,33 @@ public class Map {
 		this.pixels = new int[tilesWidth * tilesHeight];
 	}
 
-	public Map(String name, String mapDataFilename, int x, int y, int width, int height) {
+	public Map(String name, String mapFileName, int x, int y, int width, int height) {
 		this.name = name;
 		this.x = x;
 		this.y = y;
 		this.width = width;
 		this.height = height;
-		this.mapDataFilename = mapDataFilename;
-		this.grid = loadMap(mapDataFilename);
+		this.mapFileName = mapFileName;
+		this.grid = loadMap(mapFileName);
 		this.tilesWidth = grid.getTilesWide();
 		this.tilesHeight = grid.getTilesHigh();
-		this.mapData = loadMapData(mapDataFilename);
+		this.mapData = loadMapData(mapFileName);
 		this.texture = createMiniMap();
 		this.minimap_outline = quickLoad("minimap_outline");
+		this.minimap_outline_selected = quickLoad("minimap_outline_selected");
 	}
 
 	public void draw() {
-		drawQuadTex(minimap_outline, x - outline, y - outline, width + 2 * outline, height + 2 * outline);
+		if (mapFileName == StateManager.getCurrentMap()) {
+			// drawQuadColor(x - outline, y - outline, width + 2 * outline, height + 2 * outline + 28, Color.GREEN);
+			drawQuadTex(minimap_outline_selected, x - outline, y - outline, width + 2 * outline, height + 2 * outline + 28);
+		} else {
+			// drawQuadColor(x - outline, y - outline, width + 2 * outline, height + 2 * outline + 28, Color.BLACK);
+			drawQuadTex(minimap_outline, x - outline, y - outline, width + 2 * outline, height + 2 * outline + 28);	
+		}
+		System.out.println("Draw minimap outline: " + mapFileName + ", getCurrentMap = " + StateManager.getCurrentMap());
 		drawQuadTex(texture, x, y, width, height);
+		UI.drawString(x + 96, y + 196, name);
 	}
 
 	public Texture createMiniMap() {

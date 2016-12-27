@@ -28,11 +28,17 @@ public class StateManager {
 	private static String mapDataUpdate;
 	private static boolean levelChanged = false;
 	private static boolean reloadMinimaps = false;
+	private static String[] allMaps = new String[5];
 
 	public static void initMap(String mapFile) {
 		mapFileName = mapFile;
 		mapData = loadMapData(mapFileName);
 		map = loadMapFromData(mapData);
+		allMaps[0] = "newMap1";
+		allMaps[1] = "newMap2";
+		allMaps[2] = "newMap3";
+		allMaps[3] = "newMap4";
+		allMaps[4] = "newMap5";
 		System.out.println("initMap " + mapFile);
 	}
 
@@ -44,14 +50,16 @@ public class StateManager {
 		case MAINMENU:
 			if (mainMenu == null || reloadMinimaps) {
 				mainMenu = new MainMenu();
-				gameSplash = new Game(map);
-				gameSplash.update();
+				if (game == null) {
+					gameSplash = new Game(map, true);
+					gameSplash.update();
+				}
 				reloadMinimaps = false;
 			}
 			mainMenu.update();
 			if (gameSplash != null) {
 				gameSplash = null;
-				System.out.println("gameSplash is NULL!!!!");	
+				System.out.println("gameSplash is null.");	
 			}
 			break;
 		case GAME:
@@ -96,6 +104,7 @@ public class StateManager {
 
 	public static void setState(GameState newState) {
 		gameState = newState;
+		mainMenu.getMenuUI().setNeedRefresh(true);
 		if (newState == GameState.MAINMENU) {
 			mainMenu.redisplaySplashScreen();
 		}
@@ -122,5 +131,32 @@ public class StateManager {
 
 	public static void reloadMinimaps() {
 		reloadMinimaps = true;
+	}
+
+	public static String getCurrentMap() {
+		return mapFileName;
+	}
+
+	public static void switchCurrentMap(String direction) {
+		int currentMapIndex = 0;
+		for (int i = 0; i < allMaps.length; i++) {
+			if (allMaps[i] == mapFileName) {
+				currentMapIndex = i;
+			}
+		}
+		switch(direction) {
+		case "right":
+			currentMapIndex++;
+			break;
+		case "left":
+			currentMapIndex--;
+			break;
+		}
+		if (currentMapIndex < 0)
+			currentMapIndex = allMaps.length - 1;
+		if (currentMapIndex > allMaps.length - 1)
+			currentMapIndex = 0;
+		System.out.println("switchCurrentMap to " + allMaps[currentMapIndex]);
+		mapFileName = allMaps[currentMapIndex];
 	}
 }
