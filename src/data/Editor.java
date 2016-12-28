@@ -1,14 +1,11 @@
 package data;
 
-import helpers.Clock;
 import helpers.Artist;
 import static helpers.Artist.*;
 import static helpers.Leveler.*;
 import helpers.StateManager;
 import helpers.StateManager.GameState;
 import ui.UI;
-import ui.UI.Menu;
-
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.newdawn.slick.opengl.Texture;
@@ -18,8 +15,6 @@ public class Editor {
 	private TileGrid grid;
 	private TileType[] types;
 	private int index;
-	private boolean leftMouseButtonDown;
-	private boolean rightMouseButtonDown;
 	private UI editorUI;
 	private Menu tilePickerMenu;
 	private Texture menuBackground;
@@ -35,8 +30,6 @@ public class Editor {
 		this.types[1] = TileType.Dirt;
 		this.types[2] = TileType.Water;
 		this.menuBackground = quickLoad("menu_background_tiles");
-		this.leftMouseButtonDown = false;
-		this.rightMouseButtonDown = false;
 		setupUI();
 	}
 

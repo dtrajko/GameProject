@@ -1,6 +1,5 @@
 package data;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -17,7 +16,6 @@ public class Map {
 
 	private int x, y, width, height, tilesWidth, tilesHeight;
 	private TileGrid grid;
-	private int[] pixels;
 	private String name;
 	private String mapFileName;
 	private String mapData;
@@ -33,7 +31,6 @@ public class Map {
 		this.height = tilesHeight;
 		this.tilesWidth = tilesWidth;
 		this.tilesHeight = tilesHeight;
-		this.pixels = new int[tilesWidth * tilesHeight];
 	}
 
 	public Map(String name, String mapFileName, int x, int y, int width, int height) {
@@ -55,14 +52,14 @@ public class Map {
 	public void draw() {
 		if (mapFileName == StateManager.getCurrentMap()) {
 			// drawQuadColor(x - outline, y - outline, width + 2 * outline, height + 2 * outline + 28, Color.GREEN);
-			drawQuadTex(minimap_outline_selected, x - outline, y - outline, width + 2 * outline, height + 2 * outline + 28);
+			drawQuadTex(minimap_outline_selected, x - outline, y - outline, width + 2 * outline, height + 2 * outline + 32);
 		} else {
 			// drawQuadColor(x - outline, y - outline, width + 2 * outline, height + 2 * outline + 28, Color.BLACK);
-			drawQuadTex(minimap_outline, x - outline, y - outline, width + 2 * outline, height + 2 * outline + 28);	
+			drawQuadTex(minimap_outline, x - outline, y - outline, width + 2 * outline, height + 2 * outline + 32);
 		}
 		System.out.println("Draw minimap outline: " + mapFileName + ", getCurrentMap = " + StateManager.getCurrentMap());
 		drawQuadTex(texture, x, y, width, height);
-		UI.drawString(x + 96, y + 196, name);
+		UI.drawString(x + 96, y + 198, name);
 	}
 
 	public Texture createMiniMap() {

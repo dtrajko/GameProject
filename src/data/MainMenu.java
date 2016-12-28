@@ -24,11 +24,11 @@ public class MainMenu {
 		background = quickLoad("mainmenu_transparent");
 		menuUI = new UI();
 
-		menuUI.addMinimap("Level 1", "newMap1", WIDTH / 2 - 128 - 32 - 256 - 32 - 256, (int) (HEIGHT * 0.38f), MINIMAP_WIDTH, MINIMAP_HEIGHT);
-		menuUI.addMinimap("Level 2", "newMap2", WIDTH / 2 - 128 - 32 - 256,            (int) (HEIGHT * 0.38f), MINIMAP_WIDTH, MINIMAP_HEIGHT);
-		menuUI.addMinimap("Level 3", "newMap3", WIDTH / 2 - 128,                       (int) (HEIGHT * 0.38f), MINIMAP_WIDTH, MINIMAP_HEIGHT);
-		menuUI.addMinimap("Level 4", "newMap4", WIDTH / 2 - 128 + 32 + 256,            (int) (HEIGHT * 0.38f), MINIMAP_WIDTH, MINIMAP_HEIGHT);
-		menuUI.addMinimap("Level 5", "newMap5", WIDTH / 2 - 128 + 32 + 256 + 32 + 256, (int) (HEIGHT * 0.38f), MINIMAP_WIDTH, MINIMAP_HEIGHT);
+		menuUI.addMinimap(LevelType.Level1.name, "newMap1", WIDTH / 2 - 128 - 32 - 256 - 32 - 256, (int) (HEIGHT * 0.36f), MINIMAP_WIDTH, MINIMAP_HEIGHT);
+		menuUI.addMinimap(LevelType.Level2.name, "newMap2", WIDTH / 2 - 128 - 32 - 256,            (int) (HEIGHT * 0.36f), MINIMAP_WIDTH, MINIMAP_HEIGHT);
+		menuUI.addMinimap(LevelType.Level3.name, "newMap3", WIDTH / 2 - 128,                       (int) (HEIGHT * 0.36f), MINIMAP_WIDTH, MINIMAP_HEIGHT);
+		menuUI.addMinimap(LevelType.Level4.name, "newMap4", WIDTH / 2 - 128 + 32 + 256,            (int) (HEIGHT * 0.36f), MINIMAP_WIDTH, MINIMAP_HEIGHT);
+		menuUI.addMinimap(LevelType.Level5.name, "newMap5", WIDTH / 2 - 128 + 32 + 256 + 32 + 256, (int) (HEIGHT * 0.36f), MINIMAP_WIDTH, MINIMAP_HEIGHT);
 
 		menuUI.addButton("Play", "playButton", WIDTH / 2 - 128 - 256 - 128, (int) (HEIGHT * 0.8f));
 		menuUI.addButton("Editor", "editorButton", WIDTH / 2 - 128, (int) (HEIGHT * 0.8f));
@@ -42,28 +42,28 @@ public class MainMenu {
 	private void updateButtons() {
 		if (Mouse.isButtonDown(0) && !leftMouseButtonDown) {
 
-			if (menuUI.isMinimapClicked("Level 1")) {
-				System.out.println("Level 1 minimap clicked.");
+			if (menuUI.isMinimapClicked(LevelType.Level1.name)) {
+				System.out.println(LevelType.Level1.name + " minimap clicked.");
 				StateManager.setMap("newMap1");
 				StateManager.setState(GameState.GAME);
 			}
-			if (menuUI.isMinimapClicked("Level 2")) {
-				System.out.println("Level 2 minimap clicked.");
+			if (menuUI.isMinimapClicked(LevelType.Level2.name)) {
+				System.out.println(LevelType.Level2.name + " minimap clicked.");
 				StateManager.setMap("newMap2");
 				StateManager.setState(GameState.GAME);
 			}
-			if (menuUI.isMinimapClicked("Level 3")) {
-				System.out.println("Level 3 minimap clicked.");
+			if (menuUI.isMinimapClicked(LevelType.Level3.name)) {
+				System.out.println(LevelType.Level3.name + " minimap clicked.");
 				StateManager.setMap("newMap3");
 				StateManager.setState(GameState.GAME);
 			}
-			if (menuUI.isMinimapClicked("Level 4")) {
-				System.out.println("Level 4 minimap clicked.");
+			if (menuUI.isMinimapClicked(LevelType.Level4.name)) {
+				System.out.println(LevelType.Level4.name + " minimap clicked.");
 				StateManager.setMap("newMap4");
 				StateManager.setState(GameState.GAME);
 			}
-			if (menuUI.isMinimapClicked("Level 5")) {
-				System.out.println("Level 5 minimap clicked.");
+			if (menuUI.isMinimapClicked(LevelType.Level5.name)) {
+				System.out.println(LevelType.Level5.name + " minimap clicked.");
 				StateManager.setMap("newMap5");
 				StateManager.setState(GameState.GAME);
 			}

@@ -4,7 +4,6 @@ import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
 import static helpers.Clock.*;
 import static helpers.Artist.*;
-import java.util.concurrent.ThreadLocalRandom;
 
 public class Wave {
 

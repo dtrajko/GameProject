@@ -3,6 +3,8 @@ package helpers;
 import data.MainMenu;
 import data.TileGrid;
 import data.Game;
+import data.Level;
+import data.LevelType;
 import data.Editor;
 import static helpers.Leveler.*;
 
@@ -29,6 +31,7 @@ public class StateManager {
 	private static boolean levelChanged = false;
 	private static boolean reloadMinimaps = false;
 	private static String[] allMaps = new String[5];
+	private static LevelType levelType = LevelType.Level1;
 
 	public static void initMap(String mapFile) {
 		mapFileName = mapFile;
@@ -64,7 +67,7 @@ public class StateManager {
 			break;
 		case GAME:
 			if (game == null) {
-				game = new Game(map);
+				game = new Game(map, new Level(levelType));
 			}
 			if (game.gameResumed) {
 				System.out.println("Game resumed");
@@ -72,7 +75,7 @@ public class StateManager {
 				if (!mapDataUpdate.equals(mapData) || levelChanged) {
 					System.out.println("Map or Level change detected. Loading the new map.");
 					initMap(mapFileName);
-					game = new Game(map);
+					game = new Game(map, new Level(levelType));
 					levelChanged = false;
 				}
 			}
@@ -109,7 +112,8 @@ public class StateManager {
 			mainMenu.redisplaySplashScreen();
 		}
 		if (newState == GameState.GAME) {
-			Game.gameResumed = true;
+			if (game != null)
+				game.gameResumed = true;
 			mainMenu.redisplaySplashScreen();
 		}
 		if (newState == GameState.EDITOR) {
@@ -124,9 +128,11 @@ public class StateManager {
 		return mapData;
 	}
 
-	public static void setMap(String mapFileName) {
-		levelChanged = true;
-		initMap(mapFileName);
+	public static void setMap(String newMapFileName) {
+		if (newMapFileName != mapFileName) {
+			levelChanged = true;
+			initMap(mapFileName);	
+		}
 	}
 
 	public static void reloadMinimaps() {
@@ -158,5 +164,24 @@ public class StateManager {
 			currentMapIndex = 0;
 		System.out.println("switchCurrentMap to " + allMaps[currentMapIndex]);
 		mapFileName = allMaps[currentMapIndex];
+
+		// change level type based on map name
+		switch(mapFileName) {
+		case "newMap1":
+			levelType = LevelType.Level1;
+			break;
+		case "newMap2":
+			levelType = LevelType.Level2;
+			break;
+		case "newMap3":
+			levelType = LevelType.Level3;
+			break;
+		case "newMap4":
+			levelType = LevelType.Level4;
+			break;
+		case "newMap5":
+			levelType = LevelType.Level5;
+			break;
+		}
 	}
 }

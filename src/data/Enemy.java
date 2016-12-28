@@ -141,6 +141,7 @@ public class Enemy implements Entity {
 			}
 			counter++;
 		}
+		System.out.println("Enemy " + getClass() + " total checkpoints " + checkpoints.size());
 	}
 
 	private Checkpoint findNextC(Tile s, int[] dir) {

@@ -2,19 +2,11 @@ package data;
 
 import static helpers.Artist.*;
 
-import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.image.BufferStrategy;
-import java.awt.image.BufferedImage;
 
 import org.lwjgl.input.Mouse;
 import org.newdawn.slick.opengl.Texture;
-
-import helpers.Artist;
 import helpers.StateManager;
-import ui.Button;
 import ui.UI;
-import ui.UI.Menu;
 
 public class Game {
 
@@ -33,16 +25,15 @@ public class Game {
 	public static final int ENEMY_TANK_2 = 4;
 	public static final int ENEMY_TANK_3 = 5;
 	public static final int ENEMY_UFO = 6;
-	public static boolean gameResumed = false;
+	public boolean gameResumed = false;
 	private Texture minimap;
 	private static final int MINIMAP_WIDTH = 160;
 	private static final int MINIMAP_HEIGHT = 128;
+	private Level level;
 
-	// Temp variables
-	TowerCannon tower;
-
-	public Game(TileGrid grid) {
+	public Game(TileGrid grid, Level level) {
 		this.grid = grid;
+		this.level = level;
 		this.menuBackground = quickLoad("menu_background_towers");
 		enemyTypes = new Enemy[7];
 		enemyTypes[ENEMY_ALIEN_1] = new EnemyAlien(2, 2, grid);
@@ -52,16 +43,17 @@ public class Game {
 		enemyTypes[ENEMY_TANK_2] = new EnemyTank(2, 2, grid);
 		enemyTypes[ENEMY_TANK_3] = new EnemyTank(2, 2, grid);
 		enemyTypes[ENEMY_UFO] = new EnemyUFO(2, 2, grid);
-		waveManager = new WaveManager(enemyTypes, 2, 4);
+		waveManager = new WaveManager(enemyTypes, 2, level.getType().enemiesPerWave);
 		player = new Player(grid, waveManager);
 		player.setup();
 		setupUI();
 		loadMinimap();
-		System.out.println("Game object initiated.");
+		System.out.println("Game object initiated, level " + level.getType().name());
 	}
 
 	public Game(TileGrid grid, boolean gameSplash) {
 		this.grid = grid;
+		this.level = new Level(LevelType.Level1);
 		this.menuBackground = quickLoad("menu_background_towers");
 		enemyTypes = new Enemy[1];
 		enemyTypes[0] = new EnemyUFO(2, 2, grid);
@@ -76,20 +68,18 @@ public class Game {
 	public void setupUI() {
 		gameUI = new UI();
 		towerPickerMenu = gameUI.createMenu("TowerPicker", 1280, 80, 3 * TILE_SIZE, grid.getTilesHigh() * TILE_SIZE, 3, 0);
-		towerPickerMenu.quickAdd("CannonBlue", "buttonCannonBlue");
-		towerPickerMenu.quickAdd("CannonRed", "buttonCannonRed");
-		towerPickerMenu.quickAdd("CannonIce", "buttonCannonIce");
-		towerPickerMenu.quickAdd("CannonIce2", "buttonCannonIce");
-		towerPickerMenu.quickAdd("CannonBlue2", "buttonCannonBlue");
-		towerPickerMenu.quickAdd("CannonRed2", "buttonCannonRed");
+		towerPickerMenu.quickAdd("CannonBlue",  "buttonCannonBlue");
+		towerPickerMenu.quickAdd("CannonRed",   "buttonCannonRed");
+		towerPickerMenu.quickAdd("CannonIce",   "buttonCannonIce");
 	}
 
 	private void updateUI() {
 		gameUI.draw();
-		gameUI.drawString(1310, 760, "Lives: " + Player.lives);
-		gameUI.drawString(1310, 790, "Cash: " + Player.cash);
-		gameUI.drawString(1310, 820, "Wave: " + waveManager.getWaveNumber());
-		gameUI.drawString(1310, 850, "FPS: " + StateManager.framesInLastSecond);
+		UI.drawString(1310, 730, level.getType().getName());
+		UI.drawString(1310, 760, "Lives: " + Player.lives);
+		UI.drawString(1310, 790, "Cash: " + Player.cash);
+		UI.drawString(1310, 820, "Wave: " + waveManager.getWaveNumber());
+		UI.drawString(1310, 850, "FPS: " + StateManager.framesInLastSecond);
 
 		drawQuadTex(minimap, 1296, 250, MINIMAP_WIDTH, MINIMAP_HEIGHT);
 
@@ -105,15 +95,6 @@ public class Game {
 				}
 				if (towerPickerMenu.isButtonClicked("CannonIce")) {
 					player.pickTower(new TowerIce(TowerType.CannonIce, grid.getTile(19, 0), waveManager.getCurrentWave().getEnemyList()));
-				}
-				if (towerPickerMenu.isButtonClicked("CannonIce2")) {
-					player.pickTower(new TowerIce(TowerType.CannonIce, grid.getTile(19, 0), waveManager.getCurrentWave().getEnemyList()));
-				}
-				if (towerPickerMenu.isButtonClicked("CannonBlue2")) {
-					player.pickTower(new TowerCannonBlue(TowerType.CannonBlue, grid.getTile(19, 0), waveManager.getCurrentWave().getEnemyList()));
-				}
-				if (towerPickerMenu.isButtonClicked("CannonRed2")) {
-					player.pickTower(new TowerCannonRed(TowerType.CannonRed, grid.getTile(19, 0), waveManager.getCurrentWave().getEnemyList()));
 				}
 			}
 		}
@@ -147,5 +128,9 @@ public class Game {
 
 	public Player getPlayer() {
 		return player;
+	}
+
+	public Level getLevel() {
+		return level;
 	}
 }
