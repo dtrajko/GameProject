@@ -1,13 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="/home/dtrajko/workspace/java/lib/jars/lwjgl.jar">
+	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry exported="true" kind="lib" path="D:/workspace/java/GameProject/lib/jars/lwjgl.jar">
 		<attributes>
-			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="/home/dtrajko/workspace/java/lib/natives"/>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="GameProject/lib/natives/win"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="/home/dtrajko/workspace/java/lib/jars/lwjgl_util.jar"/>
-	<classpathentry kind="lib" path="/home/dtrajko/workspace/java/lib/jars/slick-util.jar"/>
+	<classpathentry exported="true" kind="lib" path="D:/workspace/java/GameProject/lib/jars/lwjgl_util.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="GameProject/lib/natives/win"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry exported="true" kind="lib" path="D:/workspace/java/GameProject/lib/jars/slick-util.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="GameProject/lib/natives/win"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

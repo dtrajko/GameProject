@@ -18,7 +18,7 @@ public class Artist {
 	public static final int TILE_SIZE = 64;
 
 	public static void beginSession() {
-		Display.setTitle("Veljkova igrica");
+		Display.setTitle("LWJGL2 2D game");
 		try {
 			Display.setDisplayMode(new DisplayMode(WIDTH, HEIGHT));
 			Display.create();
